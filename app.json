@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "secondbrain",
-    "description": "Trigger ideas by resurfacing book excerpts, quotes, insights & ideas",
+    "name": "Secondbrain",
+    "description": "App that resurfaces ideas – book excerpts, quotes, insights & notes",
     "slug": "secondbrain",
     "privacy": "public",
     "sdkVersion": "27.0.0",
@@ -14,6 +14,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#222222"
     },
+    "scheme": "secondbrain",
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -22,7 +23,7 @@
       "supportsTablet": true
     },
     "androidStatusBar": {
-      "barStyle": "light-content",
+      "barStyle": "dark-content",
       "backgroundColor": "#222222"
     }
   }
