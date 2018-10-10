@@ -63,10 +63,10 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   show_next_icon: {
-    width: 15,
-    height: 15,
-    marginRight: 4,
-    top: 2,
+    width: 13,
+    height: 13,
+    marginRight: 3,
+    top: 3,
     left: -2
   },
   show_next_text: {
