@@ -14,8 +14,7 @@ export default class App extends React.Component {
       dataSource: {},
       currentItem: {},
       isDataLoadingDone: false,
-      isFontLoadingDone: false,
-      showNextExcerpt: false
+      isFontLoadingDone: false
     };
 
     // Bindings
@@ -75,7 +74,7 @@ export default class App extends React.Component {
         Helpers & Handlers
   ----------------------------------------------------*/
   checkIfAppLoadingInProgress() {
-    isAppLoadingInProgress =
+    const isAppLoadingInProgress =
       this.state.isDataLoadingDone === false ||
       this.state.isFontLoadingDone === false;
 
@@ -83,7 +82,7 @@ export default class App extends React.Component {
   }
 
   checkIfNoEntries() {
-    isDataEmpty = !this.state.dataSource;
+    const isDataEmpty = !this.state.dataSource;
     return isDataEmpty;
   }
 
@@ -145,6 +144,7 @@ export default class App extends React.Component {
 
   async loadFonts() {
     await Font.loadAsync({
+      "overpass-thin": require("./assets/fonts/overpass-thin.ttf"),
       "overpass-light": require("./assets/fonts/overpass-light.ttf"),
       "overpass-regular": require("./assets/fonts/overpass-regular.ttf"),
       "overpass-semibold": require("./assets/fonts/overpass-semibold.ttf")

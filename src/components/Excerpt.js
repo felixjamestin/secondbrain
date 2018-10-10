@@ -15,7 +15,6 @@ class Excerpt extends React.PureComponent {
   /*--------------------------------------------------
     Render UI
   ----------------------------------------------------*/
-
   render() {
     const items = [this.props.item];
 
@@ -38,11 +37,13 @@ class Excerpt extends React.PureComponent {
 
     return (
       <View>
-        <Text style={itemStyle.title}>{title}</Text>
-        <Text style={itemStyle.author}>{author}</Text>
-        <View style={itemStyle.redbar} />
-        <Text style={itemStyle.body}>{extract}</Text>
-        {this.renderImage(uri)}
+        <View style={styles.container_desc}>
+          <Text style={itemStyle.title}>{title}</Text>
+          <Text style={itemStyle.author}>{author}</Text>
+          <View style={itemStyle.redbar} />
+          <Text style={itemStyle.body}>{extract}</Text>
+        </View>
+        <View style={itemStyle.image}>{this.renderImage(uri)}</View>
       </View>
     );
   }
@@ -91,13 +92,14 @@ class Excerpt extends React.PureComponent {
       author: "",
       title: "",
       body: "",
-      redbar: ""
+      redbar: "",
+      image: ""
     };
 
     itemStyle.body =
       extract === "-" || extract === ""
         ? styles.excerpt_body_empty
-        : styles.excerpt_body;
+        : this.getDynamicSizeForText(extract);
 
     itemStyle.title =
       title === "-" || title === ""
@@ -111,10 +113,30 @@ class Excerpt extends React.PureComponent {
           ? styles.excerpt_author
           : styles.excerpt_author_secondary;
 
-    itemStyle.redbar =
-      author !== "-" || title !== "-" ? styles.redbar : styles.redbar_empty;
+    const doesDescriptionExist = author !== "-" || title !== "-";
+
+    itemStyle.redbar = doesDescriptionExist
+      ? styles.redbar
+      : styles.redbar_empty;
+
+    itemStyle.image = doesDescriptionExist
+      ? styles.container_excerpt_image
+      : styles.container_excerpt_image_only;
 
     return itemStyle;
+  }
+
+  getDynamicSizeForText(text) {
+    let textStyle = styles.excerpt_body_large;
+
+    const textLength = text.length;
+    if (textLength > 70) {
+      textStyle = styles.excerpt_body_small;
+    } else if (textLength > 60) {
+      textStyle = styles.excerpt_body_medium;
+    }
+
+    return textStyle;
   }
 }
 
@@ -126,6 +148,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     marginTop: 0
+  },
+  container_desc: {
+    paddingLeft: 42,
+    paddingRight: 48
   },
   redbar: {
     backgroundColor: ColorConstants.baseColors.red,
@@ -142,9 +168,7 @@ const styles = StyleSheet.create({
   excerpt_list: {
     flex: 1,
     paddingTop: 100,
-    marginHorizontal: 0,
-    paddingLeft: 42,
-    paddingRight: 48
+    marginHorizontal: 0
   },
   excerpt_title: {
     color: ColorConstants.baseColors.white,
@@ -182,7 +206,7 @@ const styles = StyleSheet.create({
     fontFamily: "overpass-light",
     fontSize: 15
   },
-  excerpt_body: {
+  excerpt_body_small: {
     color: ColorConstants.baseColors.white,
     marginBottom: 0,
     fontFamily: "overpass-light",
@@ -191,16 +215,42 @@ const styles = StyleSheet.create({
     letterSpacing: 0.2,
     opacity: 1
   },
+  excerpt_body_medium: {
+    color: ColorConstants.baseColors.white,
+    marginBottom: 0,
+    fontFamily: "overpass-light",
+    fontSize: 15,
+    lineHeight: 27,
+    letterSpacing: 0.2,
+    opacity: 1
+  },
+  excerpt_body_large: {
+    color: ColorConstants.baseColors.white,
+    marginBottom: 0,
+    fontFamily: "overpass-thin",
+    fontSize: 28,
+    lineHeight: 42,
+    letterSpacing: 0.2,
+    opacity: 1
+  },
   excerpt_body_empty: {
     height: 0,
     width: 0,
     opacity: 0
   },
+  container_excerpt_image: {
+    paddingLeft: 17,
+    paddingRight: 17
+  },
+  container_excerpt_image_only: {
+    paddingTop: 30,
+    paddingLeft: 15,
+    paddingRight: 15
+  },
   excerpt_image: {
     width: "100%",
     height: 400,
     marginLeft: 0,
-    paddingLeft: 0,
     shadowOpacity: 0.4,
     shadowRadius: 4,
     shadowColor: "black",

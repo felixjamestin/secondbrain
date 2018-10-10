@@ -52,7 +52,9 @@ const styles = StyleSheet.create({
     paddingTop: 45,
     paddingBottom: 250,
     flexDirection: "row",
-    justifyContent: "center"
+    justifyContent: "center",
+    paddingLeft: 42,
+    paddingRight: 48
   },
   show_next_container: {
     flex: 1,
