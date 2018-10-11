@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet, FlatList, Text, Image } from "react-native";
 import { ColorConstants } from "./common/ColorConstants";
 import { StringHelper } from "../helpers/Index";
-import { Footer } from "./Footer";
+import { BodyContent, Footer } from "./Index";
 
 class Excerpt extends React.PureComponent {
   constructor(props) {
@@ -32,8 +32,8 @@ class Excerpt extends React.PureComponent {
   }
 
   renderItem({ item }) {
-    const [author, extract, title, uri] = this.getItemDetails(item);
-    const itemStyle = this.getItemStyles(author, extract, title);
+    const [author, body, title, uri] = this.getItemDetails(item);
+    const itemStyle = this.getItemStyles(author, body, title);
 
     return (
       <View>
@@ -41,7 +41,7 @@ class Excerpt extends React.PureComponent {
           <Text style={itemStyle.title}>{title}</Text>
           <Text style={itemStyle.author}>{author}</Text>
           <View style={itemStyle.redbar} />
-          <Text style={itemStyle.body}>{extract}</Text>
+          <BodyContent style={itemStyle.body} content={body} />
         </View>
         <View style={itemStyle.image}>{this.renderImage(uri)}</View>
       </View>
@@ -72,11 +72,11 @@ class Excerpt extends React.PureComponent {
   ----------------------------------------------------*/
   getItemDetails(item) {
     const author = StringHelper.convertToCamelCase(item.fields.author);
-    const extract = StringHelper.convertToSentenceCase(item.fields.extract);
+    const body = StringHelper.convertToSentenceCase(item.fields.extract);
     const title = StringHelper.convertToCamelCase(item.fields.title);
     const url = this.getImageURL(item);
 
-    return [author, extract, title, url];
+    return [author, body, title, url];
   }
 
   getImageURL(item) {
@@ -127,13 +127,15 @@ class Excerpt extends React.PureComponent {
   }
 
   getDynamicSizeForText(text) {
-    let textStyle = styles.excerpt_body_large;
+    let textStyle = styles.excerpt_body_superlarge;
 
     const textLength = text.length;
-    if (textLength > 70) {
+    if (textLength > 100) {
       textStyle = styles.excerpt_body_small;
-    } else if (textLength > 60) {
+    } else if (textLength > 90) {
       textStyle = styles.excerpt_body_medium;
+    } else if (textLength > 60) {
+      textStyle = styles.excerpt_body_large;
     }
 
     return textStyle;
@@ -227,6 +229,15 @@ const styles = StyleSheet.create({
   excerpt_body_large: {
     color: ColorConstants.baseColors.white,
     marginBottom: 0,
+    fontFamily: "overpass-thin",
+    fontSize: 24,
+    lineHeight: 42,
+    letterSpacing: 0.2,
+    opacity: 1
+  },
+  excerpt_body_superlarge: {
+    color: ColorConstants.baseColors.white,
+    marginVertical: 50,
     fontFamily: "overpass-thin",
     fontSize: 28,
     lineHeight: 42,

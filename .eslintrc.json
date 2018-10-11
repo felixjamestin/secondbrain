@@ -12,6 +12,38 @@
     "react/jsx-one-expression-per-line": ["off"],
     "react/prefer-stateless-function": ["off"],
     "react/destructuring-assignment": "off",
+    "react/prop-types": "off",
     "global-require": "off"
   }
+
+  // {
+  //   "extends": [
+  //       "prettier",
+  //       "rallycoding"
+  //   ],
+  //   "plugins": [
+  //       "react",
+  //       "prettier",
+  //       "json",
+  //       "html"
+  //   ],
+  //   "parserOptions": {
+  //       "ecmaVersion": 2016,
+  //       "sourceType": "module",
+  //       "ecmaFeatures": {
+  //           "jsx": true
+  //       }
+  //   },
+  //   "env": {
+  //       "es6": true,
+  //       "node": true
+  //   },
+  //   "rules": {
+  //       "prettier/prettier": "error",
+  //       "quotes": [
+  //           "error",
+  //           "double"
+  //       ]
+  //   }
+  // }
 }
