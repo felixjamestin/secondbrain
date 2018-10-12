@@ -43,6 +43,28 @@ class StringHelper {
   static sanitizeString(string) {
     return string ? string : "";
   }
+
+  static addNewLines(text) {
+    return text
+      .split("\n")
+      .map(element => {
+        return element + "\n";
+      })
+      .join("");
+  }
+
+  static isTextInMarkdown(text) {
+    const firstSentence = text.split("\n")[0];
+    const firstChar = firstSentence.trim().charAt(0);
+
+    let isTextInMarkdown = false;
+    const regex = /[#,*]/;
+    if (regex.test(firstChar)) {
+      isTextInMarkdown = true;
+    }
+
+    return isTextInMarkdown;
+  }
 }
 
 export { StringHelper };

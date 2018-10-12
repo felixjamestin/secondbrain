@@ -1,7 +1,8 @@
 import React, { PureComponent } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { MarkdownView } from "react-native-markdown-view";
-import { ColorConstants } from "./common/ColorConstants";
+import { ColorConstants } from "./common/Index";
+import { StringHelper } from "../helpers/Index";
 
 class BodyContent extends PureComponent {
   constructor(props) {
@@ -12,25 +13,29 @@ class BodyContent extends PureComponent {
     Render UI
   ----------------------------------------------------*/
   render() {
-    const style = this.getItemStyles(this.props.content);
+    return <View>{this.getViewForRender()}</View>;
+  }
 
-    return (
-      <View>
-        <Text style={style}>{this.props.content}</Text>
+  getViewForRender() {
+    return StringHelper.isTextInMarkdown(this.props.content)
+      ? this.renderMarkdown()
+      : this.renderPlainText();
+  }
 
-        <MarkdownView>{this.props.content}</MarkdownView>
-
-        <MarkdownView styles={markdownStyles}>
-          {"# Why is markdown cool?\n" +
-            "## Why is markdown cool?\n" +
-            "* because it lets us do simple formatting **easily** \n" +
-            "* _without_ the need for complex CMS data structures \n" +
-            "* and you can outsource ~~your~~ work to the content creators! \n\n" +
-            "* zxsasda ddand you can outsource ~~your~~ work to the content creators! \n\n" +
-            "> This is a blockquote \n"}
-        </MarkdownView>
-      </View>
+  renderMarkdown() {
+    const stringForMarkdownRender = StringHelper.addNewLines(
+      this.props.content
     );
+    return (
+      <MarkdownView styles={markdownStyles}>
+        {stringForMarkdownRender}
+      </MarkdownView>
+    );
+  }
+
+  renderPlainText() {
+    const style = this.getItemStyles(this.props.content);
+    return <Text style={style}>{this.props.content}</Text>;
   }
 
   /*--------------------------------------------------
@@ -111,7 +116,7 @@ const styles = StyleSheet.create({
 const markdownStyles = {
   blockQuote: {
     marginLeft: 10,
-    opacity: 0.8
+    opacity: 1
   },
   codeBlock: {
     fontFamily: "Courier",
@@ -131,30 +136,25 @@ const markdownStyles = {
     fontFamily: "overpass-light",
     letterSpacing: 0.5,
     fontSize: 24,
-    marginTop: 22,
-    marginBottom: 22,
-    marginLeft: 0,
-    marginRight: 0
+    marginTop: 0,
+    marginBottom: 10,
+    marginHorizontal: 0
   },
   heading2: {
     color: ColorConstants.baseColors.white,
-    fontFamily: "overpass-semibold",
+    fontFamily: "overpass-light",
     letterSpacing: 0.5,
     fontSize: 15,
-    marginTop: 0,
-    marginBottom: 0,
-    marginLeft: 0,
-    marginRight: 0
+    marginHorizontal: 0,
+    marginBottom: 12
   },
   heading3: {
     color: ColorConstants.baseColors.white,
     fontFamily: "overpass-light",
     letterSpacing: 0.5,
-    fontSize: 20,
-    marginTop: 20,
-    marginBottom: 20,
-    marginLeft: 0,
-    marginRight: 0
+    fontSize: 15,
+    marginHorizontal: 0,
+    marginBottom: 12
   },
   heading4: {
     color: ColorConstants.baseColors.white,
@@ -163,8 +163,7 @@ const markdownStyles = {
     fontSize: 16,
     marginTop: 22,
     marginBottom: 22,
-    marginLeft: 0,
-    marginRight: 0
+    marginHorizontal: 0
   },
   heading5: {
     color: ColorConstants.baseColors.white,
@@ -173,8 +172,7 @@ const markdownStyles = {
     fontSize: 14,
     marginTop: 22,
     marginBottom: 22,
-    marginLeft: 0,
-    marginRight: 0
+    marginHorizontal: 0
   },
   heading6: {
     color: ColorConstants.baseColors.white,
@@ -223,22 +221,23 @@ const markdownStyles = {
     color: ColorConstants.baseColors.white,
     fontFamily: "overpass-light",
     letterSpacing: 0.5,
-    minWidth: 20
+    minWidth: 20,
+    opacity: 0.8
   },
   listItemOrderedContent: {
     color: ColorConstants.baseColors.white,
-    fontFamily: "overpass-light",
-    fontSize: 15,
+    fontFamily: "overpass-thin",
+    fontSize: 13,
     letterSpacing: 0.5,
     flex: 1
   },
   listItemUnorderedContent: {
     color: ColorConstants.baseColors.white,
-    fontFamily: "overpass-light",
-    fontSize: 15,
+    fontFamily: "overpass-thin",
+    fontSize: 13,
     letterSpacing: 0.5,
     flex: 1,
-    marginBottom: 15,
+    marginBottom: 10,
     opacity: 1
   },
   paragraph: {
