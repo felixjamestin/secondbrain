@@ -18,7 +18,7 @@ class BodyContent extends PureComponent {
       <View>
         <Text style={style}>{this.props.content}</Text>
 
-        {/* <MarkdownView>{this.props.content}</MarkdownView>
+        <MarkdownView>{this.props.content}</MarkdownView>
 
         <MarkdownView styles={markdownStyles}>
           {"# Why is markdown cool?\n" +
@@ -28,7 +28,7 @@ class BodyContent extends PureComponent {
             "* and you can outsource ~~your~~ work to the content creators! \n\n" +
             "* zxsasda ddand you can outsource ~~your~~ work to the content creators! \n\n" +
             "> This is a blockquote \n"}
-        </MarkdownView> */}
+        </MarkdownView>
       </View>
     );
   }
