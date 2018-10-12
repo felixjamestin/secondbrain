@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import { Text, View } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 import { MarkdownView } from "react-native-markdown-view";
 import { ColorConstants } from "./common/ColorConstants";
 
@@ -12,11 +12,15 @@ class BodyContent extends PureComponent {
     Render UI
   ----------------------------------------------------*/
   render() {
+    const style = this.getItemStyles(this.props.content);
+
     return (
       <View>
-        <Text style={this.props.style}>{this.props.content}</Text>
-        <MarkdownView>{this.props.content}</MarkdownView>
-        <MarkdownView styles={styles}>
+        <Text style={style}>{this.props.content}</Text>
+
+        {/* <MarkdownView>{this.props.content}</MarkdownView>
+
+        <MarkdownView styles={markdownStyles}>
           {"# Why is markdown cool?\n" +
             "## Why is markdown cool?\n" +
             "* because it lets us do simple formatting **easily** \n" +
@@ -24,16 +28,87 @@ class BodyContent extends PureComponent {
             "* and you can outsource ~~your~~ work to the content creators! \n\n" +
             "* zxsasda ddand you can outsource ~~your~~ work to the content creators! \n\n" +
             "> This is a blockquote \n"}
-        </MarkdownView>
+        </MarkdownView> */}
       </View>
     );
+  }
+
+  /*--------------------------------------------------
+      Helpers & Handlers
+  ----------------------------------------------------*/
+  getItemStyles(body) {
+    const style =
+      body === "-" || body === ""
+        ? styles.excerpt_body_empty
+        : this.getDynamicSizeForText(body);
+
+    return style;
+  }
+
+  getDynamicSizeForText(text) {
+    let textStyle = styles.excerpt_body_superlarge;
+
+    const textLength = text.length;
+    if (textLength > 100) {
+      textStyle = styles.excerpt_body_small;
+    } else if (textLength > 90) {
+      textStyle = styles.excerpt_body_medium;
+    } else if (textLength > 60) {
+      textStyle = styles.excerpt_body_large;
+    }
+
+    return textStyle;
   }
 }
 
 /*---------------------------------------------------
     Styles
 ----------------------------------------------------*/
-const styles = {
+const styles = StyleSheet.create({
+  excerpt_body_small: {
+    color: ColorConstants.baseColors.white,
+    marginBottom: 0,
+    fontFamily: "overpass-light",
+    fontSize: 15,
+    lineHeight: 27,
+    letterSpacing: 0.2,
+    opacity: 1
+  },
+  excerpt_body_medium: {
+    color: ColorConstants.baseColors.white,
+    marginBottom: 0,
+    fontFamily: "overpass-light",
+    fontSize: 15,
+    lineHeight: 27,
+    letterSpacing: 0.2,
+    opacity: 1
+  },
+  excerpt_body_large: {
+    color: ColorConstants.baseColors.white,
+    marginBottom: 0,
+    fontFamily: "overpass-thin",
+    fontSize: 24,
+    lineHeight: 42,
+    letterSpacing: 0.2,
+    opacity: 1
+  },
+  excerpt_body_superlarge: {
+    color: ColorConstants.baseColors.white,
+    marginVertical: 50,
+    fontFamily: "overpass-thin",
+    fontSize: 28,
+    lineHeight: 42,
+    letterSpacing: 0.2,
+    opacity: 1
+  },
+  excerpt_body_empty: {
+    height: 0,
+    width: 0,
+    opacity: 0
+  }
+});
+
+const markdownStyles = {
   blockQuote: {
     marginLeft: 10,
     opacity: 0.8
