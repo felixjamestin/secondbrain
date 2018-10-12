@@ -1,13 +1,11 @@
 import React, { PureComponent } from "react";
 import { Text, View } from "react-native";
 import { MarkdownView } from "react-native-markdown-view";
+import { ColorConstants } from "./common/ColorConstants";
 
 class BodyContent extends PureComponent {
   constructor(props) {
     super(props);
-
-    // Bindings
-    this.renderItem = this.renderItem.bind(this);
   }
 
   /*--------------------------------------------------
@@ -17,8 +15,8 @@ class BodyContent extends PureComponent {
     return (
       <View>
         <Text style={this.props.style}>{this.props.content}</Text>
-        {/* <MarkdownView>{this.props.content}</MarkdownView> */}
-        <MarkdownView>
+        <MarkdownView>{this.props.content}</MarkdownView>
+        <MarkdownView styles={styles}>
           {"# Why is markdown cool?\n" +
             "## Why is markdown cool?\n" +
             "* because it lets us do simple formatting **easily** \n" +
@@ -35,7 +33,7 @@ class BodyContent extends PureComponent {
 /*---------------------------------------------------
     Styles
 ----------------------------------------------------*/
-const newstyle = {
+const styles = {
   blockQuote: {
     marginLeft: 10,
     opacity: 0.8
@@ -54,20 +52,29 @@ const newstyle = {
     fontWeight: "700"
   },
   heading1: {
-    fontSize: 32,
+    color: ColorConstants.baseColors.white,
+    fontFamily: "overpass-light",
+    letterSpacing: 0.5,
+    fontSize: 24,
     marginTop: 22,
     marginBottom: 22,
     marginLeft: 0,
     marginRight: 0
   },
   heading2: {
-    fontSize: 24,
-    marginTop: 20,
-    marginBottom: 20,
+    color: ColorConstants.baseColors.white,
+    fontFamily: "overpass-semibold",
+    letterSpacing: 0.5,
+    fontSize: 15,
+    marginTop: 0,
+    marginBottom: 0,
     marginLeft: 0,
     marginRight: 0
   },
   heading3: {
+    color: ColorConstants.baseColors.white,
+    fontFamily: "overpass-light",
+    letterSpacing: 0.5,
     fontSize: 20,
     marginTop: 20,
     marginBottom: 20,
@@ -75,6 +82,9 @@ const newstyle = {
     marginRight: 0
   },
   heading4: {
+    color: ColorConstants.baseColors.white,
+    fontFamily: "overpass-light",
+    letterSpacing: 0.5,
     fontSize: 16,
     marginTop: 22,
     marginBottom: 22,
@@ -82,6 +92,9 @@ const newstyle = {
     marginRight: 0
   },
   heading5: {
+    color: ColorConstants.baseColors.white,
+    fontFamily: "overpass-light",
+    letterSpacing: 0.5,
     fontSize: 14,
     marginTop: 22,
     marginBottom: 22,
@@ -89,6 +102,9 @@ const newstyle = {
     marginRight: 0
   },
   heading6: {
+    color: ColorConstants.baseColors.white,
+    fontFamily: "overpass-light",
+    letterSpacing: 0.5,
     fontSize: 11,
     marginTop: 24,
     marginBottom: 24,
@@ -122,24 +138,45 @@ const newstyle = {
     flexDirection: "row"
   },
   listItemNumber: {
-    minWidth: 32,
+    color: ColorConstants.baseColors.white,
+    fontFamily: "overpass-light",
+    letterSpacing: 0.5,
+    minWidth: 28,
     paddingRight: 4
   },
   listItemBullet: {
-    minWidth: 32,
-    paddingRight: 4
+    color: ColorConstants.baseColors.white,
+    fontFamily: "overpass-light",
+    letterSpacing: 0.5,
+    minWidth: 20
   },
   listItemOrderedContent: {
+    color: ColorConstants.baseColors.white,
+    fontFamily: "overpass-light",
+    fontSize: 15,
+    letterSpacing: 0.5,
     flex: 1
   },
   listItemUnorderedContent: {
-    flex: 1
+    color: ColorConstants.baseColors.white,
+    fontFamily: "overpass-light",
+    fontSize: 15,
+    letterSpacing: 0.5,
+    flex: 1,
+    marginBottom: 15,
+    opacity: 1
   },
   paragraph: {
+    color: ColorConstants.baseColors.white,
+    fontFamily: "overpass-light",
+    letterSpacing: 0.5,
     marginTop: 10,
     marginBottom: 10
   },
   strong: {
+    color: ColorConstants.baseColors.white,
+    fontFamily: "overpass-light",
+    letterSpacing: 0.5,
     fontWeight: "700"
   },
   table: {
@@ -175,6 +212,7 @@ const newstyle = {
   tableCellContentEvenColumn: {},
   tableCellContentLastColumn: {},
   u: {
+    color: ColorConstants.baseColors.white,
     textDecorationLine: "underline"
   }
 };

@@ -13,7 +13,8 @@
     "react/prefer-stateless-function": ["off"],
     "react/destructuring-assignment": "off",
     "react/prop-types": "off",
-    "global-require": "off"
+    "global-require": "off",
+    "import/prefer-default-export": "off"
   }
 
   // {
