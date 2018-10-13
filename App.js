@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, ActivityIndicator } from "react-native";
+import { StyleSheet, View, ActivityIndicator, Text } from "react-native";
 import { Font } from "expo";
 import { Header, Excerpt, BlankState } from "./src/components/Index";
 import { ColorConstants } from "./src/components/common/Index";
@@ -22,7 +22,7 @@ export default class App extends React.Component {
   }
 
   /*--------------------------------------------------
-    Lifecycle events
+  ⭐️ Lifecycle events ⭐️
   ----------------------------------------------------*/
   componentDidMount() {
     this.fetchEntries();
@@ -30,7 +30,7 @@ export default class App extends React.Component {
   }
 
   /*--------------------------------------------------
-    Render UI
+  ⭐️ Render UI ⭐️
   ----------------------------------------------------*/
   render() {
     return <View style={styles.wrapper}> {this.getViewForRender()}</View>;
@@ -47,7 +47,15 @@ export default class App extends React.Component {
   }
 
   renderWhenLoading() {
-    return <ActivityIndicator />;
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator
+          size="small"
+          color={ColorConstants.baseColors.white}
+        />
+        <Text style={{ color: "red", fontSize: 30 }}>Yohoooooo</Text>
+      </View>
+    );
   }
 
   renderWhenEmpty() {
@@ -71,7 +79,7 @@ export default class App extends React.Component {
   }
 
   /*--------------------------------------------------
-        Helpers & Handlers
+  ⭐️ Helpers & Handlers ⭐️
   ----------------------------------------------------*/
   checkIfAppLoadingInProgress() {
     const isAppLoadingInProgress =
@@ -157,7 +165,7 @@ export default class App extends React.Component {
 }
 
 /*---------------------------------------------------
-        Styles
+⭐️ Styles ️⭐️
 ----------------------------------------------------*/
 const styles = StyleSheet.create({
   wrapper: {

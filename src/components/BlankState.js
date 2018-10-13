@@ -1,5 +1,6 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
+import { ColorConstants } from "./common/Index";
 
 class BlankState extends React.PureComponent {
   constructor(props) {

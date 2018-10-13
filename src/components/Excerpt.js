@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, FlatList, Image } from "react-native";
+import { View, StyleSheet, FlatList } from "react-native";
 import { StringHelper } from "../helpers/Index";
 import { BodyContent, BodyMetaDesc, BodyImage, Footer } from "./Index";
 
