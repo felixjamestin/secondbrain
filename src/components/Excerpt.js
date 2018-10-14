@@ -12,7 +12,7 @@ class Excerpt extends React.PureComponent {
   }
 
   /*--------------------------------------------------
-    Render UI
+  ⭑ Render UI
   ----------------------------------------------------*/
   render() {
     const items = [this.props.item];
@@ -59,15 +59,15 @@ class Excerpt extends React.PureComponent {
   };
 
   /*--------------------------------------------------
-      Helpers & Handlers
+  ⭑ Helpers & Handlers
   ----------------------------------------------------*/
   getItemDetails(item) {
     const author = StringHelper.convertToCamelCase(item.fields.author);
     const body = StringHelper.convertToSentenceCase(item.fields.extract);
     const title = StringHelper.convertToCamelCase(item.fields.title);
-    const url = this.getImageURL(item);
+    const uri = this.getImageURL(item);
 
-    return [author, body, title, url];
+    return [author, body, title, uri];
   }
 
   getImageURL(item) {
@@ -80,7 +80,7 @@ class Excerpt extends React.PureComponent {
 }
 
 /*---------------------------------------------------
-    Styles
+⭑ Styles
 ----------------------------------------------------*/
 const styles = StyleSheet.create({
   container: {
@@ -96,6 +96,6 @@ const styles = StyleSheet.create({
 });
 
 /*---------------------------------------------------
-    Exports
+⭑ Exports
 ----------------------------------------------------*/
 export { Excerpt };

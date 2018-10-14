@@ -10,7 +10,7 @@ class BodyContent extends PureComponent {
   }
 
   /*--------------------------------------------------
-    Render UI
+  ⭑ Render UI
   ----------------------------------------------------*/
   render() {
     return <View>{this.getViewForRender()}</View>;
@@ -39,7 +39,7 @@ class BodyContent extends PureComponent {
   }
 
   /*--------------------------------------------------
-      Helpers & Handlers
+  ⭑ Helpers & Handlers
   ----------------------------------------------------*/
   getItemStyles(body) {
     const style =
@@ -67,7 +67,7 @@ class BodyContent extends PureComponent {
 }
 
 /*---------------------------------------------------
-    Styles
+⭑ Styles
 ----------------------------------------------------*/
 const styles = StyleSheet.create({
   excerpt_body_small: {
@@ -292,6 +292,6 @@ const markdownStyles = {
 };
 
 /*---------------------------------------------------
-    Exports
+⭑ Exports
 ----------------------------------------------------*/
 export { BodyContent };

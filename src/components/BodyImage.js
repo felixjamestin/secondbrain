@@ -7,7 +7,7 @@ class BodyImage extends PureComponent {
   }
 
   /*--------------------------------------------------
-  ⭐️ Render UI ⭐️
+  ⭑ Render UI
   ----------------------------------------------------*/
   render() {
     const style = this.getItemStyles();
@@ -30,7 +30,7 @@ class BodyImage extends PureComponent {
   }
 
   /*--------------------------------------------------
-  ⭐️ Helpers & Handlers ⭐ ️
+  ⭑ Helpers & Handlers
   ----------------------------------------------------*/
   getItemStyles() {
     const style = this.props.doesDescriptionExist
@@ -42,7 +42,7 @@ class BodyImage extends PureComponent {
 }
 
 /*---------------------------------------------------
-⭐️ Styles ⭐️
+⭑ Styles
 ----------------------------------------------------*/
 const styles = StyleSheet.create({
   container_excerpt_image: {
@@ -66,6 +66,6 @@ const styles = StyleSheet.create({
 });
 
 /*--------------------------------------------------
-⭐️ Export ⭐ ️
+⭑ Export
 ----------------------------------------------------*/
 export { BodyImage };
