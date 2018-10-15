@@ -46,6 +46,7 @@ class BodyImage extends PureComponent {
 ----------------------------------------------------*/
 const styles = StyleSheet.create({
   container_excerpt_image: {
+    marginTop: -15,
     paddingLeft: 17,
     paddingRight: 17
   },

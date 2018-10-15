@@ -136,7 +136,7 @@ const markdownStyles = {
     fontFamily: "overpass-light",
     letterSpacing: 0.5,
     fontSize: 24,
-    marginTop: 0,
+    marginTop: 24,
     marginBottom: 10,
     marginHorizontal: 0
   },

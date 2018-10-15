@@ -4,7 +4,7 @@ import { Permissions, Notifications } from "expo";
 ⭑ Main function
 ----------------------------------------------------*/
 async function registerForPushNotifications() {
-  // 1. Get OS permission
+  // 1. Get OS permission for push
   const wasPushNotificationPermissionObtained = getOSPermissionForPushNotifications();
   if (!wasPushNotificationPermissionObtained) return;
 
@@ -37,7 +37,7 @@ function sendPushTokenToBackend(token) {
         value: token
       },
       user: {
-        username: "Brent" //TODO:
+        username: "Felix" //TODO:
       }
     })
   });

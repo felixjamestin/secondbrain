@@ -21,11 +21,17 @@ class StringHelper {
   }
 
   static convertToSentenceCase(string) {
-    const sentenceCaseString = this.sanitizeString(string)
-      .toLowerCase()
-      .replace(/(^\s*\w|[\.\!\?]\s*\w)/g, function(c) {
-        return c.toUpperCase();
-      });
+    const sanitizedString = this.sanitizeString(string);
+    let markDownRegex = /([#*]{1,5}\s["“']*\w|[\.\!\?]\s*\w)/g;
+    let plainTextRegex = /(^\s*\w|[\.\!\?]\s*\w)/g;
+
+    const sentenceCaseString = this.isTextInMarkdown(sanitizedString)
+      ? sanitizedString.toLowerCase().replace(markDownRegex, function(c) {
+          return c.toUpperCase(); // Detect for markdown
+        })
+      : sanitizedString.toLowerCase().replace(plainTextRegex, function(c) {
+          return c.toUpperCase(); // Detect for plain text
+        });
 
     return sentenceCaseString;
   }
