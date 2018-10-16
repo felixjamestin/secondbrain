@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   loading_text_secondary: {
     color: ColorConstants.baseColors.white,
     fontSize: 12,
-    opacity: 0.5,
+    opacity: 0.7,
     marginHorizontal: 57,
     textAlign: "center",
     lineHeight: 20

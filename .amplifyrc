@@ -1,0 +1,14 @@
+{
+    "providers": {
+        "awscloudformation": {
+            "AuthRoleName": "secondbrainapp-20181016101017-authRole",
+            "UnauthRoleArn": "arn:aws:iam::547241034615:role/secondbrainapp-20181016101017-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::547241034615:role/secondbrainapp-20181016101017-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "secondbrainapp-20181016101017-deployment",
+            "UnauthRoleName": "secondbrainapp-20181016101017-unauthRole",
+            "StackName": "secondbrainapp-20181016101017",
+            "StackId": "arn:aws:cloudformation:us-east-1:547241034615:stack/secondbrainapp-20181016101017/a6a848f0-d0fd-11e8-97f5-500c212ff6fd"
+        }
+    }
+}
