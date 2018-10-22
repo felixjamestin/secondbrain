@@ -1,0 +1,16 @@
+{
+  "name": "secondbrainpushjob",
+  "version": "1.0.0",
+  "description": "Job that sends push notifications to secondbrain users",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Felix Jamestin",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.339.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2"
+  }
+}

@@ -1,0 +1,52 @@
+{
+    "paths": [
+        {
+            "name": "/users",
+            "lambdaFunction": "registerUsers",
+            "privacy": {
+                "open": true
+            }
+        },
+        {
+            "name": "/notifications",
+            "lambdaFunction": "sendPushNotifications",
+            "privacy": {
+                "open": true
+            }
+        }
+    ],
+    "resourceName": "secondbrainapi",
+    "apiName": "secondbrainapp2b0418d0",
+    "functionArns": [
+        {
+            "lambdaFunction": "registerUsers"
+        },
+        {
+            "lambdaFunction": "sendPushNotifications"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "secondbrainapp-20181016134652-authRole",
+        "unAuthRoleName": "secondbrainapp-20181016134652-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "registerUsers",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        },
+        {
+            "category": "function",
+            "resourceName": "sendPushNotifications",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

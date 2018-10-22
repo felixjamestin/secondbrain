@@ -1,4 +1,9 @@
 import { Permissions, Notifications } from "expo";
+import Amplify from "@aws-amplify/core";
+import API from "@aws-amplify/api";
+import config from "../../aws-exports";
+
+Amplify.configure(config);
 
 /*---------------------------------------------------
 ⭑ Main function
@@ -10,10 +15,9 @@ async function registerForPushNotifications() {
 
   // 2. Get device push token
   let token = await Notifications.getExpoPushTokenAsync();
-  console.log(token);
 
   // // 3. Send token to backend
-  // return sendPushTokenToBackend(token);
+  sendPushTokenToBackend(token);
 }
 
 /*--------------------------------------------------
@@ -24,23 +28,17 @@ export { registerForPushNotifications };
 /*---------------------------------------------------
 ⭑ Sub functions
 ----------------------------------------------------*/
-function sendPushTokenToBackend(token) {
-  const PUSH_ENDPOINT = "https://your-server.com/users/push-token"; //TODO:
-  return fetch(PUSH_ENDPOINT, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      token: {
-        value: token
-      },
-      user: {
-        username: "Felix" //TODO:
-      }
-    })
-  });
+async function sendPushTokenToBackend(token) {
+  const apiName = "secondbrainapi";
+  const path = "/users";
+  const newItem = {
+    headers: {}, // OPTIONAL
+    response: true, // OPTIONAL (return the entire Axios response object instead of only response.data)
+    queryStringParameters: {}, // OPTIONAL
+    body: { push_token: token, email: "felixjamestin@gmail.com" }
+  };
+
+  await API.post(apiName, path, newItem);
 }
 
 async function getOSPermissionForPushNotifications() {
