@@ -7,3 +7,4 @@ export * from "./BodyImage";
 export * from "./BlankState";
 export * from "./LoadingState";
 export * from "./PushNotifications";
+export * from "./Analytics.js";

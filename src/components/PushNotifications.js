@@ -1,6 +1,5 @@
 import { Permissions, Notifications } from "expo";
-import Amplify from "@aws-amplify/core";
-import API from "@aws-amplify/api";
+import Amplify, { API } from "aws-amplify";
 import config from "../../aws-exports";
 
 Amplify.configure(config);
@@ -9,36 +8,34 @@ Amplify.configure(config);
 ⭑ Main function
 ----------------------------------------------------*/
 async function registerForPushNotifications() {
-  // 1. Get OS permission for push
-  const wasPushNotificationPermissionObtained = getOSPermissionForPushNotifications();
-  if (!wasPushNotificationPermissionObtained) return;
+  try {
+    // 1. Get OS permission for push
+    const wasPushNotificationPermissionObtained = await getOSPermissionForPushNotifications();
+    if (!wasPushNotificationPermissionObtained) return;
 
-  // 2. Get device push token
-  let token = await Notifications.getExpoPushTokenAsync();
+    // 2. Get device push token
+    let token = await Notifications.getExpoPushTokenAsync();
 
-  // // 3. Send token to backend
-  sendPushTokenToBackend(token);
+    // 3. Send token to backend
+    sendPushTokenToBackend(token);
+  } catch (error) {
+    console.log(error);
+  }
 }
-
-/*--------------------------------------------------
-⭑ Exports
-----------------------------------------------------*/
-export { registerForPushNotifications };
 
 /*---------------------------------------------------
 ⭑ Sub functions
 ----------------------------------------------------*/
 async function sendPushTokenToBackend(token) {
-  const apiName = "secondbrainapi";
-  const path = "/users";
+  const apiName = "sbapi";
+  const createPath = "/users";
   const newItem = {
     headers: {}, // OPTIONAL
     response: true, // OPTIONAL (return the entire Axios response object instead of only response.data)
     queryStringParameters: {}, // OPTIONAL
-    body: { push_token: token, email: "felixjamestin@gmail.com" }
+    body: { token: token, email: "felixjamestin@gmail.com" }
   };
-
-  await API.post(apiName, path, newItem);
+  await API.post(apiName, createPath, newItem);
 }
 
 async function getOSPermissionForPushNotifications() {
@@ -53,3 +50,8 @@ async function getOSPermissionForPushNotifications() {
 
   return finalStatus === "granted" ? true : false;
 }
+
+/*--------------------------------------------------
+⭑ Exports
+----------------------------------------------------*/
+export { registerForPushNotifications };

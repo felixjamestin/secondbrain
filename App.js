@@ -1,13 +1,13 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Font } from "expo";
-
 import {
   Header,
   Excerpt,
   BlankState,
   LoadingState,
   registerForPushNotifications
+  AnalyticsHelper
 } from "./src/components/Index";
 import { ColorConstants } from "./src/components/common/Index";
 import { ArrayHelper } from "./src/helpers/Index";
@@ -34,7 +34,10 @@ export default class App extends React.Component {
   componentDidMount() {
     this.fetchEntries();
     this.loadFonts();
-    this.registerForPushNotifications();
+    registerForPushNotifications();
+
+    // AnalyticsHelper.trackEvent(AnalyticsHelper.eventEnum.appOpen); TODO:
+    AnalyticsHelper.
   }
 
   /*--------------------------------------------------
@@ -95,13 +98,14 @@ export default class App extends React.Component {
   }
 
   handleShowNextExcerpt(showNextExcerpt) {
-    if (showNextExcerpt === true) {
-      const item = this.getRandomItem();
+    if (showNextExcerpt !== true) return false;
 
-      this.setState({
-        currentItem: item
-      });
-    }
+    const item = this.getRandomItem();
+    this.setState({
+      currentItem: item
+    });
+
+    // AnalyticsHelper.trackEvent(AnalyticsHelper.eventEnum.showNext); TODO:
   }
 
   getRandomItem(dataSource = this.state.dataSource) {
@@ -161,10 +165,6 @@ export default class App extends React.Component {
     this.setState({
       isFontLoadingDone: true
     });
-  }
-
-  registerForPushNotifications() {
-    registerForPushNotifications();
   }
 }
 

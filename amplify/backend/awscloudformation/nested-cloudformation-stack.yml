@@ -78,21 +78,88 @@
 				}
 			}
 		},
+		"authcognitodd79bfe5": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/secondbrainapp-20181023151350-deployment/amplify-cfn-templates/auth/cognitodd79bfe5-cloudformation-template.yml",
+				"Parameters": {
+					"identityPoolName": "cognitodd79bfe5_identitypool_dd79bfe5",
+					"allowUnauthenticatedIdentities": true,
+					"thirdPartyAuth": false,
+					"lambdaLogPolicy": "cognitodd79bfe5_lambda_log_policy",
+					"openIdLambdaRoleName": "cognitodd79bfe5_openid_lambda_role",
+					"openIdRolePolicy": "cognitodd79bfe5_openid_pass_role_policy",
+					"openIdLambdaIAMPolicy": "cognitodd79bfe5_openid_lambda_iam_policy",
+					"openIdLogPolicy": "cognitodd79bfe5_openid_lambda_log_policy",
+					"userPoolName": "cognitodd79bfe5_userpool_dd79bfe5",
+					"autoVerifiedAttributes": "email",
+					"mfaConfiguration": "OFF",
+					"mfaTypes": "SMS Text Message",
+					"roleName": "cognitodd79bfe5_sns-role",
+					"roleExternalId": "cognitodd79bfe5_role_external_id",
+					"policyName": "cognitodd79bfe5-sns-policy",
+					"smsAuthenticationMessage": "Your authentication code is {####}",
+					"smsVerificationMessage": "Your verification code is {####}",
+					"emailVerificationSubject": "Your verification code",
+					"emailVerificationMessage": "Your verification code is {####}",
+					"defaultPasswordPolicy": false,
+					"passwordPolicyMinLength": 8,
+					"passwordPolicyCharacters": "Requires Lowercase,Requires Uppercase,Requires Numbers,Requires Symbols",
+					"requiredAttributes": "email",
+					"userpoolClientName": "cognitodd79bfe5_app_client",
+					"userpoolClientGenerateSecret": true,
+					"userpoolClientRefreshTokenValidity": 30,
+					"userpoolClientReadAttributes": "email",
+					"mfaLambdaRole": "cognitodd79bfe5_totp_lambda_role",
+					"mfaLambdaLogPolicy": "cognitodd79bfe5_totp_lambda_log_policy",
+					"mfaPassRolePolicy": "cognitodd79bfe5_totp_pass_role_policy",
+					"mfaLambdaIAMPolicy": "cognitodd79bfe5_totp_lambda_iam_policy",
+					"userpoolClientLambdaRole": "cognitodd79bfe5_userpoolclient_lambda_role",
+					"userpoolClientLogPolicy": "cognitodd79bfe5_userpoolclient_lambda_log_policy",
+					"userpoolClientLambdaPolicy": "cognitodd79bfe5_userpoolclient_lambda_iam_policy",
+					"userpoolClientSetAttributes": false,
+					"useDefault": "default",
+					"unAuthRoleName": "secondbrainapp-20181023151350-unauthRole",
+					"authRoleName": "secondbrainapp-20181023151350-authRole",
+					"unAuthRoleArn": "arn:aws:iam::547241034615:role/secondbrainapp-20181023151350-unauthRole",
+					"authRoleArn": "arn:aws:iam::547241034615:role/secondbrainapp-20181023151350-authRole",
+					"resourceName": "cognitodd79bfe5",
+					"authSelections": "identityPoolAndUserPool"
+				}
+			}
+		},
+		"analyticssecondbrainapp": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/secondbrainapp-20181023151350-deployment/amplify-cfn-templates/analytics/pinpoint-cloudformation-template.json",
+				"Parameters": {
+					"appName": "secondbrainapp",
+					"roleName": "pinpointLambdaRoleede31669",
+					"cloudWatchPolicyName": "cloudWatchPolicyede31669",
+					"pinpointPolicyName": "pinpointPolicyede31669",
+					"authPolicyName": "pinpoint_amplify_ede31669",
+					"unauthPolicyName": "pinpoint_amplify_ede31669",
+					"authRoleName": "secondbrainapp-20181023151350-authRole",
+					"unauthRoleName": "secondbrainapp-20181023151350-unauthRole",
+					"IAMPrefix": "547241034615"
+				}
+			}
+		},
 		"storageusers": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/secondbrainapp-20181016134652-deployment/amplify-cfn-templates/storage/users-cloudformation-template.json",
+				"TemplateURL": "https://s3.amazonaws.com/secondbrainapp-20181023151350-deployment/amplify-cfn-templates/storage/users-cloudformation-template.json",
 				"Parameters": {
 					"tableName": "users",
-					"partitionKeyName": "push_token",
+					"partitionKeyName": "token",
 					"partitionKeyType": "S"
 				}
 			}
 		},
-		"functionregisterUsers": {
+		"functionsbapi": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/secondbrainapp-20181016134652-deployment/amplify-cfn-templates/function/registerUsers-cloudformation-template.json",
+				"TemplateURL": "https://s3.amazonaws.com/secondbrainapp-20181023151350-deployment/amplify-cfn-templates/function/sbapi-cloudformation-template.json",
 				"Parameters": {
 					"storageusersName": {
 						"Fn::GetAtt": [
@@ -109,39 +176,20 @@
 				}
 			}
 		},
-		"functionsendPushNotifications": {
+		"apisbapi": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/secondbrainapp-20181016134652-deployment/amplify-cfn-templates/function/sendPushNotifications-cloudformation-template.json",
-				"Parameters": {}
-			}
-		},
-		"apisecondbrainapi": {
-			"Type": "AWS::CloudFormation::Stack",
-			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/secondbrainapp-20181016134652-deployment/amplify-cfn-templates/api/secondbrainapi-cloudformation-template.json",
+				"TemplateURL": "https://s3.amazonaws.com/secondbrainapp-20181023151350-deployment/amplify-cfn-templates/api/sbapi-cloudformation-template.json",
 				"Parameters": {
-					"functionregisterUsersName": {
+					"functionsbapiName": {
 						"Fn::GetAtt": [
-							"functionregisterUsers",
+							"functionsbapi",
 							"Outputs.Name"
 						]
 					},
-					"functionregisterUsersArn": {
+					"functionsbapiArn": {
 						"Fn::GetAtt": [
-							"functionregisterUsers",
-							"Outputs.Arn"
-						]
-					},
-					"functionsendPushNotificationsName": {
-						"Fn::GetAtt": [
-							"functionsendPushNotifications",
-							"Outputs.Name"
-						]
-					},
-					"functionsendPushNotificationsArn": {
-						"Fn::GetAtt": [
-							"functionsendPushNotifications",
+							"functionsbapi",
 							"Outputs.Arn"
 						]
 					}

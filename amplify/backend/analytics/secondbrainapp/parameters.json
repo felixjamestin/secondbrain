@@ -1,0 +1,11 @@
+{
+    "appName": "secondbrainapp",
+    "roleName": "pinpointLambdaRoleede31669",
+    "cloudWatchPolicyName": "cloudWatchPolicyede31669",
+    "pinpointPolicyName": "pinpointPolicyede31669",
+    "authPolicyName": "pinpoint_amplify_ede31669",
+    "unauthPolicyName": "pinpoint_amplify_ede31669",
+    "authRoleName": "secondbrainapp-20181023151350-authRole",
+    "unauthRoleName": "secondbrainapp-20181023151350-unauthRole",
+    "IAMPrefix": "547241034615"
+}

@@ -11,14 +11,18 @@ exports.handler = async function(event, context) {
     // 1. Get random entry from airtable (restrict to once per day)
     let entries = await getEntriesFromAirtable();
     let randomEntry = getRandomItem(entries.records);
+    console.log(randomEntry);
 
     // 2. Read push key off dynamo db
     let pushTokens = await getPushTokens();
 
     // 3. Call expo push api
     sendPushNotifications(randomEntry, pushTokens);
+
+    return "Executed successfully";
   } catch (error) {
     console.error(error);
+    throw new Error("some error type");
   }
 };
 
@@ -69,7 +73,7 @@ function sendPushNotifications(randomEntry, pushTokens) {
   let { title, body } = getPushTextForEntry(randomEntry);
 
   const pushBodyForRecepients = pushTokens.Items.map(item => {
-    return { to: item.push_token, title: title, body: body };
+    return { to: item.token, title: title, body: body };
   });
 
   const requestOptions = {

@@ -1,14 +1,14 @@
 {
     "providers": {
         "awscloudformation": {
-            "AuthRoleName": "secondbrainapp-20181016134652-authRole",
-            "UnauthRoleArn": "arn:aws:iam::547241034615:role/secondbrainapp-20181016134652-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::547241034615:role/secondbrainapp-20181016134652-authRole",
+            "AuthRoleName": "secondbrainapp-20181023151350-authRole",
+            "UnauthRoleArn": "arn:aws:iam::547241034615:role/secondbrainapp-20181023151350-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::547241034615:role/secondbrainapp-20181023151350-authRole",
             "Region": "us-east-1",
-            "DeploymentBucketName": "secondbrainapp-20181016134652-deployment",
-            "UnauthRoleName": "secondbrainapp-20181016134652-unauthRole",
-            "StackName": "secondbrainapp-20181016134652",
-            "StackId": "arn:aws:cloudformation:us-east-1:547241034615:stack/secondbrainapp-20181016134652/e89e49d0-d11b-11e8-b0b0-500c28637499"
+            "DeploymentBucketName": "secondbrainapp-20181023151350-deployment",
+            "UnauthRoleName": "secondbrainapp-20181023151350-unauthRole",
+            "StackName": "secondbrainapp-20181023151350",
+            "StackId": "arn:aws:cloudformation:us-east-1:547241034615:stack/secondbrainapp-20181023151350/26a24a60-d6a8-11e8-a3a5-128e2cab805c"
         }
     }
 }

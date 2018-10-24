@@ -1,0 +1,34 @@
+{
+    "paths": [
+        {
+            "name": "/users",
+            "lambdaFunction": "sbapi",
+            "privacy": {
+                "open": true
+            }
+        }
+    ],
+    "resourceName": "sbapi",
+    "apiName": "secondbrainapp9c096788",
+    "functionArns": [
+        {
+            "lambdaFunction": "sbapi"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "secondbrainapp-20181023151350-authRole",
+        "unAuthRoleName": "secondbrainapp-20181023151350-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "sbapi",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

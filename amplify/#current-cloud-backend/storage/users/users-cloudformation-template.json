@@ -20,7 +20,7 @@
                 "AttributeDefinitions": [
                   
                   {
-                      "AttributeName": "push_token",
+                      "AttributeName": "token",
                       "AttributeType": "S"
                   } 
                   
@@ -28,7 +28,7 @@
                 "KeySchema": [
                   
                   {
-                    "AttributeName": "push_token",
+                    "AttributeName": "token",
                     "KeyType": "HASH"
                   } 
                   

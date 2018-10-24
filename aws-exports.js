@@ -2,6 +2,12 @@
 
 const awsmobile =  {
     "aws_project_region": "us-east-1",
+    "aws_cognito_identity_pool_id": "us-east-1:bace2c79-4ba5-4506-badd-2714cd270db6",
+    "aws_cognito_region": "us-east-1",
+    "aws_user_pools_id": "us-east-1_58soxZ75M",
+    "aws_user_pools_web_client_id": "1kaukgcmu26iuhfukm4ce5ql3p",
+    "aws_mobile_analytics_app_id": "6be4375fe14c4586a1f25eec6fbfff78",
+    "aws_mobile_analytics_app_region": "us-east-1",
     "aws_dynamodb_all_tables_region": "us-east-1",
     "aws_dynamodb_table_schemas": [
         {
@@ -11,8 +17,8 @@ const awsmobile =  {
     ],
     "aws_cloud_logic_custom": [
         {
-            "name": "secondbrainapi",
-            "endpoint": "https://06cguvvgw0.execute-api.us-east-1.amazonaws.com/Prod",
+            "name": "sbapi",
+            "endpoint": "https://h9r2pkur9g.execute-api.us-east-1.amazonaws.com/Prod",
             "region": "us-east-1"
         }
     ]
