@@ -8,7 +8,6 @@ const requestpromise = require("request-promise");
 
 main();
 
-// exports.handler = async function(event, context) {
 async function main() {
   try {
     // 1. Get random entry from airtable (restrict to once per day)
@@ -20,6 +19,8 @@ async function main() {
 
     // 3. Call expo push api
     sendPushNotifications(randomEntry, pushTokens);
+
+    return "Executed successfully";
   } catch (error) {
     console.error(error);
   }
@@ -72,8 +73,13 @@ function sendPushNotifications(randomEntry, pushTokens) {
   let { title, body } = getPushTextForEntry(randomEntry);
 
   const pushBodyForRecepients = pushTokens.Items.map(item => {
-    return { to: item.push_token, title: title, body: body };
+    return { to: item.token, title: title, body: body };
   });
+
+  console.log(pushTokens);
+  console.log("----");
+  console.log(pushBodyForRecepients);
+  console.log("----");
 
   const requestOptions = {
     url: "https://exp.host/--/api/v2/push/send",
@@ -86,7 +92,7 @@ function sendPushNotifications(randomEntry, pushTokens) {
     if (error) {
       console.log("error:", error);
     } else {
-      console.log("result:", body.data[0].status);
+      console.log("result:", body);
     }
   });
 }

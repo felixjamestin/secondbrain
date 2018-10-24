@@ -22,7 +22,6 @@ exports.handler = async function(event, context) {
     return "Executed successfully";
   } catch (error) {
     console.error(error);
-    throw new Error("some error type");
   }
 };
 
@@ -87,7 +86,7 @@ function sendPushNotifications(randomEntry, pushTokens) {
     if (error) {
       console.log("error:", error);
     } else {
-      console.log("result:", body.data[0].status);
+      console.log("result:", body);
     }
   });
 }

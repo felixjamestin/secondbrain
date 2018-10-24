@@ -6,7 +6,7 @@ import {
   Excerpt,
   BlankState,
   LoadingState,
-  registerForPushNotifications
+  registerForPushNotifications,
   AnalyticsHelper
 } from "./src/components/Index";
 import { ColorConstants } from "./src/components/common/Index";
@@ -37,7 +37,6 @@ export default class App extends React.Component {
     registerForPushNotifications();
 
     // AnalyticsHelper.trackEvent(AnalyticsHelper.eventEnum.appOpen); TODO:
-    AnalyticsHelper.
   }
 
   /*--------------------------------------------------
