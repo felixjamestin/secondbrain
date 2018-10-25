@@ -17,9 +17,10 @@ exports.handler = async function(event, context) {
     let pushTokens = await getPushTokens();
 
     // 3. Call expo push api
-    sendPushNotifications(randomEntry, pushTokens);
-
-    return "Executed successfully";
+    let result = await sendPushNotifications(randomEntry, pushTokens);
+    console.log("----");
+    console.log(result);
+    console.log("----");
   } catch (error) {
     console.error(error);
   }
@@ -79,16 +80,11 @@ function sendPushNotifications(randomEntry, pushTokens) {
     url: "https://exp.host/--/api/v2/push/send",
     method: "POST",
     json: true,
-    body: pushBodyForRecepients
+    body: pushBodyForRecepients,
+    headers: {}
   };
 
-  request(requestOptions, function(error, response, body) {
-    if (error) {
-      console.log("error:", error);
-    } else {
-      console.log("result:", body);
-    }
-  });
+  return requestpromise(requestOptions);
 }
 
 function getPushTextForEntry(item) {
