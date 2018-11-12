@@ -1,12 +1,13 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { Font } from "expo";
+import { Font, Notifications } from "expo";
 import {
   Header,
   Excerpt,
   BlankState,
   LoadingState,
   registerForPushNotifications,
+  getPushNotifications,
   AnalyticsHelper
 } from "./src/components/Index";
 import { ColorConstants } from "./src/components/common/Index";
@@ -26,6 +27,7 @@ export default class App extends React.Component {
 
     // Bindings
     this.handleShowNextExcerpt = this.handleShowNextExcerpt.bind(this);
+    this.handleNotification = this.handleNotification.bind(this);
   }
 
   /*--------------------------------------------------
@@ -34,9 +36,11 @@ export default class App extends React.Component {
   componentDidMount() {
     this.fetchEntries();
     this.loadFonts();
-    registerForPushNotifications();
 
-    // AnalyticsHelper.trackEvent(AnalyticsHelper.eventEnum.appOpen); TODO:
+    registerForPushNotifications();
+    Notifications.addListener(this.handleNotification);
+
+    AnalyticsHelper.trackEvent(AnalyticsHelper.eventEnum().appOpen);
   }
 
   /*--------------------------------------------------
@@ -104,7 +108,23 @@ export default class App extends React.Component {
       currentItem: item
     });
 
-    // AnalyticsHelper.trackEvent(AnalyticsHelper.eventEnum.showNext); TODO:
+    AnalyticsHelper.trackEvent(AnalyticsHelper.eventEnum().showNext);
+  }
+
+  handleNotification(notification) {
+    console.log(notification);
+
+    let notificationID = notification.data.id
+      ? notification.data.id
+      : this.props.exp.notification;
+
+    const [currentItem, items] = await getPushNotifications(notificationID) //TODO: Check
+
+    this.setState({
+      isDataLoadingDone: true,
+      dataSource: items,
+      currentItem: currentItem
+    });
   }
 
   getRandomItem(dataSource = this.state.dataSource) {
@@ -126,6 +146,8 @@ export default class App extends React.Component {
           Authorization: "Bearer " + token
         }
       };
+
+      // TODO: Call remote api to get item for display (i.e. do the below)
 
       // Fetch results from Airtable api
       let response = await fetch(url, obj);

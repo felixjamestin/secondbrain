@@ -5,7 +5,7 @@ import config from "../../aws-exports";
 Amplify.configure(config);
 
 /*---------------------------------------------------
-⭑ Main function
+⭑ Main functions
 ----------------------------------------------------*/
 async function registerForPushNotifications() {
   try {
@@ -21,6 +21,10 @@ async function registerForPushNotifications() {
   } catch (error) {
     console.log(error);
   }
+}
+
+async function getPushNotifications(notificationID) {
+  // TODO:
 }
 
 /*---------------------------------------------------
@@ -54,4 +58,4 @@ async function getOSPermissionForPushNotifications() {
 /*--------------------------------------------------
 ⭑ Exports
 ----------------------------------------------------*/
-export { registerForPushNotifications };
+export { registerForPushNotifications, getPushNotifications };

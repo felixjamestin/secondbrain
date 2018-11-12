@@ -176,6 +176,13 @@
 				}
 			}
 		},
+		"functionsbapiGetExcerpts": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/secondbrainapp-20181023151350-deployment/amplify-cfn-templates/function/sbapiGetExcerpts-cloudformation-template.json",
+				"Parameters": {}
+			}
+		},
 		"apisbapi": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {

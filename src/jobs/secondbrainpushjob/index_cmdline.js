@@ -2,8 +2,8 @@
 ⭑ Description: This is a job that sends push
 ⭑ notifications to the secondbrain clients
 ----------------------------------------------------*/
+
 const AWS = require("aws-sdk");
-const request = require("request");
 const requestpromise = require("request-promise");
 
 main();
@@ -19,7 +19,8 @@ async function main() {
 
     // 3. Call expo push api
     let result = await sendPushNotifications(randomEntry, pushTokens);
-    console.log(result);
+    console.log(`result: ${result}`);
+    console.log("----");
   } catch (error) {
     console.error(error);
   }
@@ -29,7 +30,7 @@ async function main() {
 ⭑ Component functions
 ----------------------------------------------------*/
 
-// Read random entry off airtable
+// 1. Read random entry off airtable
 function getEntriesFromAirtable() {
   const token = "key34bOupUaggtKkP";
   const requestOptions = {
@@ -52,7 +53,7 @@ function getRandomItem(items) {
   return items[randomIndex];
 }
 
-// Read push key off dynamo db
+// 2. Read push key off dynamo db
 function getPushTokens() {
   const dynamodb = new AWS.DynamoDB.DocumentClient({
     region: "us-east-1" //process.env.TABLE_REGION
@@ -67,18 +68,24 @@ function getPushTokens() {
   });
 }
 
-// Call expo push api
+// 3. Call expo push api
 function sendPushNotifications(randomEntry, pushTokens) {
   let { title, body } = getPushTextForEntry(randomEntry);
 
-  const pushBodyForRecepients = pushTokens.Items.map(item => {
-    return { to: item.token, title: title, body: body };
+  const pushTokensExcludingExpoClient = pushTokens.Items.filter(item => {
+    return item.token !== "ExponentPushToken[XUtLrhKJ9HQEawAmP5R2Pr]"
+      ? true
+      : false;
   });
 
-  console.log(pushTokens);
-  console.log("----");
-  console.log(pushBodyForRecepients);
-  console.log("----");
+  const pushBodyForRecepients = pushTokensExcludingExpoClient.map(item => {
+    return {
+      to: item.token,
+      title: title,
+      body: body,
+      data: { id: randomEntry.id }
+    };
+  });
 
   const requestOptions = {
     url: "https://exp.host/--/api/v2/push/send",
@@ -91,6 +98,9 @@ function sendPushNotifications(randomEntry, pushTokens) {
   return requestpromise(requestOptions);
 }
 
+/*--------------------------------------------------
+   ⭑ Helpers
+----------------------------------------------------*/
 function getPushTextForEntry(item) {
   let pushContent = { title: "", body: "" };
 
@@ -98,8 +108,8 @@ function getPushTextForEntry(item) {
     item.fields.title !== undefined && item.fields.title !== "-"
       ? item.fields.title
       : item.fields.author !== undefined && item.fields.author !== "-"
-        ? item.fields.author
-        : item.fields.type;
+      ? item.fields.author
+      : item.fields.type;
 
   pushContent.body =
     item.fields.extract !== undefined && item.fields.extract !== "-"

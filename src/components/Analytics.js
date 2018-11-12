@@ -4,26 +4,26 @@ import config from "../../aws-exports";
 Amplify.configure(config);
 
 export class AnalyticsHelper {
-  static eventEnum = {
-    appOpen: 1,
-    showNext: 2,
-    createItem: 3,
-    deleteItem: 4,
-    shareItem: 5,
-    error: 6
-  };
-
-  get EventEnum() {
-    return this.eventEnum;
+  static eventEnum() {
+    return {
+      appOpen: 1,
+      showNext: 2,
+      createItem: 3,
+      deleteItem: 4,
+      shareItem: 5,
+      error: 6
+    };
   }
 
   static trackEvent(eventType) {
     switch (eventType) {
-      case this.eventEnum.appOpen:
-        this.registerAnalytics();
+      // Track app opens
+      case AnalyticsHelper.eventEnum().appOpen:
+        AnalyticsHelper.registerAnalytics();
         break;
 
-      case this.eventEnum.showNext:
+      // Track other events
+      case AnalyticsHelper.eventEnum().showNext:
         Analytics.record({
           name: "showNext",
           attributes: { user_email: "felixjamestin@gmail.com" }
