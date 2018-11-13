@@ -7,7 +7,7 @@ import {
   BlankState,
   LoadingState,
   registerForPushNotifications,
-  getPushNotifications,
+  getPushNotificationData,
   AnalyticsHelper
 } from "./src/components/Index";
 import { ColorConstants } from "./src/components/common/Index";
@@ -54,8 +54,8 @@ export default class App extends React.Component {
     const finalView = this.checkIfAppLoadingInProgress()
       ? this.renderWhenLoading()
       : this.checkIfNoEntries()
-        ? this.renderWhenEmpty()
-        : this.renderWhenItemsExist();
+      ? this.renderWhenEmpty()
+      : this.renderWhenItemsExist();
 
     return finalView;
   }
@@ -111,14 +111,14 @@ export default class App extends React.Component {
     AnalyticsHelper.trackEvent(AnalyticsHelper.eventEnum().showNext);
   }
 
-  handleNotification(notification) {
+  async handleNotification(notification) {
     console.log(notification);
 
-    let notificationID = notification.data.id
+    let entryID = notification.data.id
       ? notification.data.id
       : this.props.exp.notification;
 
-    const [currentItem, items] = await getPushNotifications(notificationID) //TODO: Check
+    const { currentItem, items } = await getPushNotificationData(entryID);
 
     this.setState({
       isDataLoadingDone: true,

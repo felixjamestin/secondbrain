@@ -75,7 +75,7 @@ function sendPushNotifications(randomEntry, pushTokens) {
   const pushTokensExcludingExpoClient = pushTokens.Items.filter(item => {
     return item.token !== "ExponentPushToken[XUtLrhKJ9HQEawAmP5R2Pr]"
       ? true
-      : false;
+      : true; //TODO: Leaving this on for testing. It's disabled in the actual lambda service
   });
 
   const pushBodyForRecepients = pushTokensExcludingExpoClient.map(item => {

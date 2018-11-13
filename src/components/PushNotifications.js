@@ -23,8 +23,17 @@ async function registerForPushNotifications() {
   }
 }
 
-async function getPushNotifications(notificationID) {
-  // TODO:
+async function getPushNotificationData(entryID) {
+  let { currentItem, items } = await API.get("sbapiGetExcerpts", "/items", {
+    headers: {}, // OPTIONAL
+    response: true, // OPTIONAL (return the entire Axios response object instead of only response.data)
+    queryStringParameters: { entryID: entryID } // OPTIONAL
+  });
+
+  return {
+    currentItem,
+    items
+  };
 }
 
 /*---------------------------------------------------
@@ -58,4 +67,4 @@ async function getOSPermissionForPushNotifications() {
 /*--------------------------------------------------
 ⭑ Exports
 ----------------------------------------------------*/
-export { registerForPushNotifications, getPushNotifications };
+export { registerForPushNotifications, getPushNotificationData };
