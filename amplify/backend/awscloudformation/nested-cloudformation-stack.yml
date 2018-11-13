@@ -202,6 +202,26 @@
 					}
 				}
 			}
+		},
+		"apisbapiGetExcerpts": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/secondbrainapp-20181023151350-deployment/amplify-cfn-templates/api/sbapiGetExcerpts-cloudformation-template.json",
+				"Parameters": {
+					"functionsbapiGetExcerptsName": {
+						"Fn::GetAtt": [
+							"functionsbapiGetExcerpts",
+							"Outputs.Name"
+						]
+					},
+					"functionsbapiGetExcerptsArn": {
+						"Fn::GetAtt": [
+							"functionsbapiGetExcerpts",
+							"Outputs.Arn"
+						]
+					}
+				}
+			}
 		}
 	},
 	"Outputs": {

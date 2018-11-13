@@ -1,19 +1,32 @@
+/*--------------------------------------------------
+⭑ Description: This lambda function returns excerpts 
+⭑ from Airtable for the Secondbrain client
+----------------------------------------------------*/
+
+const AWS = require("aws-sdk");
 const requestpromise = require("request-promise");
 
 exports.handler = async function(event, context) {
   try {
     let items = await getEntriesFromAirtable();
+
+    // Remove empty entries
+    let sanitizedItems = items.records.filter(item => {
+      return Object.keys(item.fields).length > 0;
+    });
+
+    // Get item for display
     let currentItem = getCurrentItem(
-      items,
+      sanitizedItems,
       event.queryStringParameters.entryID
     );
 
-    console.log(items);
+    console.log(sanitizedItems);
     console.log(currentItem);
 
     return {
       currentItem,
-      items
+      sanitizedItems
     };
   } catch (error) {
     console.error(error);
@@ -41,7 +54,16 @@ function getEntriesFromAirtable() {
 }
 
 function getCurrentItem(items, currentItemID) {
-  return items.find(item => {
-    item.id === currentItemID;
-  });
+  return currentItemID
+    ? // Return item corresponding to ID
+      items.find(item => {
+        item.id === currentItemID;
+      })
+    : // Return random item
+      getRandomItem(items);
+}
+
+function getRandomItem(items) {
+  const randomIndex = Math.floor(Math.random() * items.length);
+  return items[randomIndex];
 }

@@ -20,6 +20,11 @@ const awsmobile =  {
             "name": "sbapi",
             "endpoint": "https://h9r2pkur9g.execute-api.us-east-1.amazonaws.com/Prod",
             "region": "us-east-1"
+        },
+        {
+            "name": "sbapiGetExcerpts",
+            "endpoint": "https://2dx15ft5ja.execute-api.us-east-1.amazonaws.com/Prod",
+            "region": "us-east-1"
         }
     ]
 };

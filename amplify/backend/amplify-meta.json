@@ -19,7 +19,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/secondbrainapp-20181023151350-deployment/amplify-cfn-templates/auth/cognitodd79bfe5-cloudformation-template.yml",
 				"logicalId": "authcognitodd79bfe5"
 			},
-			"lastPushTimeStamp": "2018-11-12T11:23:18.293Z",
+			"lastPushTimeStamp": "2018-11-13T06:50:40.201Z",
 			"output": {
 				"AppClientSecret": "18dfhv6no0r40rh3nhl3nrs4cj4000sq9reno227jg28dgcm8nct",
 				"UserPoolId": "us-east-1_58soxZ75M",
@@ -40,7 +40,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/secondbrainapp-20181023151350-deployment/amplify-cfn-templates/analytics/pinpoint-cloudformation-template.json",
 				"logicalId": "analyticssecondbrainapp"
 			},
-			"lastPushTimeStamp": "2018-11-12T11:23:18.294Z",
+			"lastPushTimeStamp": "2018-11-13T06:50:40.202Z",
 			"output": {
 				"appName": "secondbrainapp",
 				"Region": "us-east-1",
@@ -57,7 +57,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/secondbrainapp-20181023151350-deployment/amplify-cfn-templates/storage/users-cloudformation-template.json",
 				"logicalId": "storageusers"
 			},
-			"lastPushTimeStamp": "2018-11-12T11:23:18.300Z",
+			"lastPushTimeStamp": "2018-11-13T06:50:40.203Z",
 			"output": {
 				"PartitionKeyName": "token",
 				"Region": "us-east-1",
@@ -90,7 +90,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/secondbrainapp-20181023151350-deployment/amplify-cfn-templates/function/sbapi-cloudformation-template.json",
 				"logicalId": "functionsbapi"
 			},
-			"lastPushTimeStamp": "2018-11-12T11:23:18.301Z",
+			"lastPushTimeStamp": "2018-11-13T06:50:40.203Z",
 			"output": {
 				"Region": "us-east-1",
 				"Arn": "arn:aws:lambda:us-east-1:547241034615:function:sbapiRegisterUsersForPush",
@@ -103,20 +103,20 @@
 			"providerPlugin": "awscloudformation",
 			"build": true,
 			"dependsOn": [],
-			"lastBuildTimeStamp": "2018-10-29T16:47:57.858Z",
-			"lastPackageTimeStamp": "2018-11-12T11:22:05.536Z",
-			"distZipFilename": "sbapiGetExcerpts-1542021725-latest-build.zip",
+			"lastBuildTimeStamp": "2018-11-13T04:06:33.911Z",
+			"lastPackageTimeStamp": "2018-11-13T06:49:15.690Z",
+			"distZipFilename": "sbapiGetExcerpts-1542091752-latest-build.zip",
 			"providerMetadata": {
 				"s3TemplateURL": "https://s3.amazonaws.com/secondbrainapp-20181023151350-deployment/amplify-cfn-templates/function/sbapiGetExcerpts-cloudformation-template.json",
 				"logicalId": "functionsbapiGetExcerpts"
 			},
-			"lastPushTimeStamp": "2018-11-12T11:23:18.304Z",
+			"lastPushTimeStamp": "2018-11-13T06:50:40.205Z",
 			"output": {
 				"Region": "us-east-1",
 				"Arn": "arn:aws:lambda:us-east-1:547241034615:function:sbapiGetExcerpts",
 				"Name": "sbapiGetExcerpts"
 			},
-			"lastPushDirHash": "kllM4b4R/mQWv4XSoX2g9qUjSiU="
+			"lastPushDirHash": "kFEXZUNiFwmzT7Q/TsKcVpY1e94="
 		}
 	},
 	"api": {
@@ -137,12 +137,36 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/secondbrainapp-20181023151350-deployment/amplify-cfn-templates/api/sbapi-cloudformation-template.json",
 				"logicalId": "apisbapi"
 			},
-			"lastPushTimeStamp": "2018-11-12T11:23:18.302Z",
+			"lastPushTimeStamp": "2018-11-13T06:50:40.204Z",
 			"output": {
 				"ApiName": "sbapi",
 				"RootUrl": "https://h9r2pkur9g.execute-api.us-east-1.amazonaws.com/Prod"
 			},
 			"lastPushDirHash": "+sVrbNfIUUIXN/+GyOXHt5AZPX4="
+		},
+		"sbapiGetExcerpts": {
+			"service": "API Gateway",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [
+				{
+					"category": "function",
+					"resourceName": "sbapiGetExcerpts",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
+				}
+			],
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/secondbrainapp-20181023151350-deployment/amplify-cfn-templates/api/sbapiGetExcerpts-cloudformation-template.json",
+				"logicalId": "apisbapiGetExcerpts"
+			},
+			"lastPushTimeStamp": "2018-11-13T06:50:40.205Z",
+			"output": {
+				"ApiName": "sbapiGetExcerpts",
+				"RootUrl": "https://2dx15ft5ja.execute-api.us-east-1.amazonaws.com/Prod"
+			},
+			"lastPushDirHash": "z0iEIlc7WSFoiG97PHvv9g1B/yQ="
 		}
 	}
 }

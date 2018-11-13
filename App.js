@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Font, Notifications } from "expo";
+import Amplify, { API } from "aws-amplify";
 import {
   Header,
   Excerpt,
@@ -12,6 +13,9 @@ import {
 } from "./src/components/Index";
 import { ColorConstants } from "./src/components/common/Index";
 import { ArrayHelper } from "./src/helpers/Index";
+import config from "./aws-exports";
+
+Amplify.configure(config);
 
 export default class App extends React.Component {
   constructor(props) {
@@ -133,40 +137,53 @@ export default class App extends React.Component {
 
   async fetchEntries() {
     try {
-      // Prepare data for api call
-      const url =
-        "https://api.airtable.com/v0/apptkZub52FJhrud6/secondbrain?maxRecords=100&view=Grid%20view";
+      // // Prepare data for api call
+      // const url =
+      //   "https://api.airtable.com/v0/apptkZub52FJhrud6/secondbrain?maxRecords=100&view=Grid%20view";
 
-      const token = "key34bOupUaggtKkP";
-      const obj = {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token
-        }
-      };
+      // const token = "key34bOupUaggtKkP";
+      // const obj = {
+      //   method: "GET",
+      //   headers: {
+      //     Accept: "application/json",
+      //     "Content-Type": "application/json",
+      //     Authorization: "Bearer " + token
+      //   }
+      // };
 
-      // TODO: Call remote api to get item for display (i.e. do the below)
+      // // Fetch results from Airtable api
+      // let response = await fetch(url, obj);
+      // let responseJson = await response.json();
 
-      // Fetch results from Airtable api
-      let response = await fetch(url, obj);
-      let responseJson = await response.json();
+      // // Remove empty entries
+      // let dataSourceSanitized = responseJson.records.filter(record => {
+      //   return Object.keys(record.fields).length > 0;
+      // });
 
-      // Remove empty entries
-      let dataSourceSanitized = responseJson.records.filter(record => {
-        return Object.keys(record.fields).length > 0;
+      // // Get a random item for display
+      // const item = this.getRandomItem(dataSourceSanitized);
+
+      // // Set internal state
+      // this.setState(
+      //   {
+      //     isDataLoadingDone: true,
+      //     dataSource: dataSourceSanitized,
+      //     currentItem: item
+      //   },
+      //   function() {}
+      // );
+
+      let { currentItem, items } = await API.get("sbapiGetExcerpts", "/items", {
+        headers: {}, // OPTIONAL
+        response: true // OPTIONAL (return the entire Axios response object instead of only response.data)
       });
-
-      // Get a random item for display
-      const item = this.getRandomItem(dataSourceSanitized);
 
       // Set internal state
       this.setState(
         {
           isDataLoadingDone: true,
-          dataSource: dataSourceSanitized,
-          currentItem: item
+          dataSource: items,
+          currentItem: currentItem
         },
         function() {}
       );
