@@ -1,7 +1,4 @@
-import Amplify, { Analytics } from "aws-amplify";
-import config from "../../aws-exports";
-
-Amplify.configure(config);
+import { Analytics } from "aws-amplify";
 
 export class AnalyticsHelper {
   static eventEnum() {

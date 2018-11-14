@@ -6,6 +6,13 @@
             "privacy": {
                 "open": true
             }
+        },
+        {
+            "name": "/items",
+            "lambdaFunction": "sbapigetallitems",
+            "privacy": {
+                "open": true
+            }
         }
     ],
     "resourceName": "sbapi",
@@ -13,6 +20,9 @@
     "functionArns": [
         {
             "lambdaFunction": "sbapi"
+        },
+        {
+            "lambdaFunction": "sbapigetallitems"
         }
     ],
     "privacy": {
@@ -29,6 +39,15 @@
                 "Name",
                 "Arn"
             ]
+        },
+        {
+            "category": "function",
+            "resourceName": "sbapigetallitems",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
         }
-    ]
+    ],
+    "uuid": "cb4c0a5b"
 }

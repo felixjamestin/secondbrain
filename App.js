@@ -1,14 +1,13 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Font, Notifications } from "expo";
-import Amplify, { API } from "aws-amplify";
+import Amplify from "aws-amplify";
 import {
   Header,
   Excerpt,
   BlankState,
   LoadingState,
   registerForPushNotifications,
-  getPushNotificationData,
   AnalyticsHelper
 } from "./src/components/Index";
 import { ColorConstants } from "./src/components/common/Index";
@@ -116,77 +115,47 @@ export default class App extends React.Component {
   }
 
   async handleNotification(notification) {
-    console.log(notification);
-
     let entryID = notification.data.id
       ? notification.data.id
       : this.props.exp.notification;
-
-    const { currentItem, items } = await getPushNotificationData(entryID);
-
-    this.setState({
-      isDataLoadingDone: true,
-      dataSource: items,
-      currentItem: currentItem
-    });
+    console.log(
+      `entryid: ${entryID} ; notification.data.id: ${
+        notification.data.id
+      } ; this.props.exp.notification: ${this.props.exp.notification}`
+    );
+    await this.fetchEntries(entryID);
   }
 
   getRandomItem(dataSource = this.state.dataSource) {
     return ArrayHelper.getRandomItemFromArray(dataSource);
   }
 
-  async fetchEntries() {
+  async fetchEntries(entryID) {
     try {
-      // // Prepare data for api call
-      // const url =
-      //   "https://api.airtable.com/v0/apptkZub52FJhrud6/secondbrain?maxRecords=100&view=Grid%20view";
+      // Prepare data for api call
+      const urlBase =
+        "https://h9r2pkur9g.execute-api.us-east-1.amazonaws.com/Prod/items";
+      const urlParams = "?entryID=" + entryID;
+      const url = entryID ? urlBase + urlParams : urlBase;
+      console.log(url);
 
-      // const token = "key34bOupUaggtKkP";
-      // const obj = {
-      //   method: "GET",
-      //   headers: {
-      //     Accept: "application/json",
-      //     "Content-Type": "application/json",
-      //     Authorization: "Bearer " + token
-      //   }
-      // };
+      const obj = {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        }
+      };
 
-      // // Fetch results from Airtable api
-      // let response = await fetch(url, obj);
-      // let responseJson = await response.json();
-
-      // // Remove empty entries
-      // let dataSourceSanitized = responseJson.records.filter(record => {
-      //   return Object.keys(record.fields).length > 0;
-      // });
-
-      // // Get a random item for display
-      // const item = this.getRandomItem(dataSourceSanitized);
-
-      // // Set internal state
-      // this.setState(
-      //   {
-      //     isDataLoadingDone: true,
-      //     dataSource: dataSourceSanitized,
-      //     currentItem: item
-      //   },
-      //   function() {}
-      // );
-
-      let { currentItem, items } = await API.get("sbapiGetExcerpts", "/items", {
-        headers: {}, // OPTIONAL
-        response: true // OPTIONAL (return the entire Axios response object instead of only response.data)
-      });
+      let response = await fetch(url, obj);
+      let responseJson = await response.json();
 
       // Set internal state
-      this.setState(
-        {
-          isDataLoadingDone: true,
-          dataSource: items,
-          currentItem: currentItem
-        },
-        function() {}
-      );
+      this.setState({
+        isDataLoadingDone: true,
+        dataSource: responseJson.allItems,
+        currentItem: responseJson.currentItem
+      });
     } catch (error) {
       console.error(error);
     }

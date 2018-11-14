@@ -176,10 +176,10 @@
 				}
 			}
 		},
-		"functionsbapiGetExcerpts": {
+		"functionsbapigetallitems": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/secondbrainapp-20181023151350-deployment/amplify-cfn-templates/function/sbapiGetExcerpts-cloudformation-template.json",
+				"TemplateURL": "https://s3.amazonaws.com/secondbrainapp-20181023151350-deployment/amplify-cfn-templates/function/sbapigetallitems-cloudformation-template.json",
 				"Parameters": {}
 			}
 		},
@@ -199,24 +199,16 @@
 							"functionsbapi",
 							"Outputs.Arn"
 						]
-					}
-				}
-			}
-		},
-		"apisbapiGetExcerpts": {
-			"Type": "AWS::CloudFormation::Stack",
-			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/secondbrainapp-20181023151350-deployment/amplify-cfn-templates/api/sbapiGetExcerpts-cloudformation-template.json",
-				"Parameters": {
-					"functionsbapiGetExcerptsName": {
+					},
+					"functionsbapigetallitemsName": {
 						"Fn::GetAtt": [
-							"functionsbapiGetExcerpts",
+							"functionsbapigetallitems",
 							"Outputs.Name"
 						]
 					},
-					"functionsbapiGetExcerptsArn": {
+					"functionsbapigetallitemsArn": {
 						"Fn::GetAtt": [
-							"functionsbapiGetExcerpts",
+							"functionsbapigetallitems",
 							"Outputs.Arn"
 						]
 					}

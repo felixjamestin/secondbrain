@@ -24,7 +24,6 @@ class Excerpt extends React.PureComponent {
           renderItem={this.renderItem}
           ListFooterComponent={this.renderFooter}
           keyExtractor={(item, index) => index.toString()}
-          style={styles.excerpt_list}
         />
       </View>
     );

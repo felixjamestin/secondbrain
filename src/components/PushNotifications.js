@@ -1,8 +1,5 @@
 import { Permissions, Notifications } from "expo";
-import Amplify, { API } from "aws-amplify";
-import config from "../../aws-exports";
-
-Amplify.configure(config);
+import { API } from "aws-amplify";
 
 /*---------------------------------------------------
 ⭑ Main functions
@@ -21,19 +18,6 @@ async function registerForPushNotifications() {
   } catch (error) {
     console.log(error);
   }
-}
-
-async function getPushNotificationData(entryID) {
-  let { currentItem, items } = await API.get("sbapiGetExcerpts", "/items", {
-    headers: {}, // OPTIONAL
-    response: true, // OPTIONAL (return the entire Axios response object instead of only response.data)
-    queryStringParameters: { entryID: entryID } // OPTIONAL
-  });
-
-  return {
-    currentItem,
-    items
-  };
 }
 
 /*---------------------------------------------------
@@ -67,4 +51,4 @@ async function getOSPermissionForPushNotifications() {
 /*--------------------------------------------------
 ⭑ Exports
 ----------------------------------------------------*/
-export { registerForPushNotifications, getPushNotificationData };
+export { registerForPushNotifications };

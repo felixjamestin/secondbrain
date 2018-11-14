@@ -30,20 +30,33 @@ exports.handler = async function(event, context) {
 
 // 1. Read random entry off airtable
 function getEntriesFromAirtable() {
-  const token = "key34bOupUaggtKkP";
+  // Prepare data for api call
   const requestOptions = {
-    uri:
-      "https://api.airtable.com/v0/apptkZub52FJhrud6/secondbrain?maxRecords=500&view=Grid%20view",
+    uri: "https://h9r2pkur9g.execute-api.us-east-1.amazonaws.com/Prod/items",
     method: "GET",
     json: true,
     headers: {
       Accept: "application/json",
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token
+      "Content-Type": "application/json"
     }
   };
 
   return requestpromise(requestOptions);
+
+  // TODO: Remove once determined to be redundant
+  // const token = "key34bOupUaggtKkP";
+  // const requestOptions = {
+  //   uri:
+  //     "https://api.airtable.com/v0/apptkZub52FJhrud6/secondbrain?maxRecords=500&view=Grid%20view",
+  //   method: "GET",
+  //   json: true,
+  //   headers: {
+  //     Accept: "application/json",
+  //     "Content-Type": "application/json",
+  //     Authorization: "Bearer " + token
+  //   }
+  // };
+  // return requestpromise(requestOptions);
 }
 
 function getRandomItem(items) {
