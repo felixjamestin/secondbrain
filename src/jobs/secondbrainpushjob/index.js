@@ -8,16 +8,16 @@ const requestpromise = require("request-promise");
 
 exports.handler = async function(event, context) {
   try {
-    // 1. Get random entry from airtable (restrict to once per day)
-    let entries = await getEntriesFromAirtable();
-    let randomEntry = getRandomItem(entries.records);
-    console.log(randomEntry);
+    // 1. Get random item from airtable
+    let items = await getEntriesFromAirtable();
+    let item = items.currentItem;
+    console.log(item);
 
     // 2. Read push key off dynamo db
     let pushTokens = await getPushTokens();
 
     // 3. Call expo push api
-    let result = await sendPushNotifications(randomEntry, pushTokens);
+    let result = await sendPushNotifications(item, pushTokens);
     console.log("----\n" + result + "----");
   } catch (error) {
     console.error(error);
@@ -42,26 +42,6 @@ function getEntriesFromAirtable() {
   };
 
   return requestpromise(requestOptions);
-
-  // TODO: Remove once determined to be redundant
-  // const token = "key34bOupUaggtKkP";
-  // const requestOptions = {
-  //   uri:
-  //     "https://api.airtable.com/v0/apptkZub52FJhrud6/secondbrain?maxRecords=500&view=Grid%20view",
-  //   method: "GET",
-  //   json: true,
-  //   headers: {
-  //     Accept: "application/json",
-  //     "Content-Type": "application/json",
-  //     Authorization: "Bearer " + token
-  //   }
-  // };
-  // return requestpromise(requestOptions);
-}
-
-function getRandomItem(items) {
-  const randomIndex = Math.floor(Math.random() * items.length);
-  return items[randomIndex];
 }
 
 // 2. Read push key off dynamo db

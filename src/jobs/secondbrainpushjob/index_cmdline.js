@@ -10,15 +10,16 @@ main();
 
 async function main() {
   try {
-    // 1. Get random entry from airtable (restrict to once per day)
-    let entries = await getEntriesFromAirtable();
-    let randomEntry = getRandomItem(entries.records);
+    // 1. Get random item from airtable
+    let items = await getEntriesFromAirtable();
+    let item = items.currentItem;
+    console.log(item);
 
     // 2. Read push key off dynamo db
     let pushTokens = await getPushTokens();
 
     // 3. Call expo push api
-    let result = await sendPushNotifications(randomEntry, pushTokens);
+    let result = await sendPushNotifications(item, pushTokens);
     console.log(`result: ${result}`);
     console.log("----");
   } catch (error) {
@@ -30,27 +31,19 @@ async function main() {
 ⭑ Component functions
 ----------------------------------------------------*/
 
-// 1. Read random entry off airtable
+// 1. Read random item off airtable
 function getEntriesFromAirtable() {
-  const token = "key34bOupUaggtKkP";
   const requestOptions = {
-    uri:
-      "https://api.airtable.com/v0/apptkZub52FJhrud6/secondbrain?maxRecords=500&view=Grid%20view",
+    uri: "https://h9r2pkur9g.execute-api.us-east-1.amazonaws.com/Prod/items",
     method: "GET",
     json: true,
     headers: {
       Accept: "application/json",
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token
+      "Content-Type": "application/json"
     }
   };
 
   return requestpromise(requestOptions);
-}
-
-function getRandomItem(items) {
-  const randomIndex = Math.floor(Math.random() * items.length);
-  return items[randomIndex];
 }
 
 // 2. Read push key off dynamo db
