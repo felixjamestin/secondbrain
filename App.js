@@ -37,13 +37,13 @@ export default class App extends React.Component {
   ⭑ Lifecycle events
   ----------------------------------------------------*/
   componentDidMount() {
-    this.fetchEntries();
-    this.loadFonts();
-
     registerForPushNotifications();
     Notifications.addListener(this.handleNotification);
 
+    this.loadFonts();
     AnalyticsHelper.trackEvent(AnalyticsHelper.eventEnum().appOpen);
+
+    this.checkAndFetchEntries();
   }
 
   /*--------------------------------------------------
@@ -114,20 +114,23 @@ export default class App extends React.Component {
     AnalyticsHelper.trackEvent(AnalyticsHelper.eventEnum().showNext);
   }
 
+  getRandomItem(dataSource = this.state.dataSource) {
+    return ArrayHelper.getRandomItemFromArray(dataSource);
+  }
+
   async handleNotification(notification) {
     let entryID = notification.data.id
       ? notification.data.id
       : this.props.exp.notification;
-    console.log(
-      `entryid: ${entryID} ; notification.data.id: ${
-        notification.data.id
-      } ; this.props.exp.notification: ${this.props.exp.notification}`
-    );
+
     await this.fetchEntries(entryID);
   }
 
-  getRandomItem(dataSource = this.state.dataSource) {
-    return ArrayHelper.getRandomItemFromArray(dataSource);
+  checkAndFetchEntries() {
+    // Is data already being fetched via the notification handler?
+    if (this.props.exp.notification) return;
+
+    this.fetchEntries();
   }
 
   async fetchEntries(entryID) {
