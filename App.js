@@ -24,6 +24,7 @@ export default class App extends React.Component {
     this.state = {
       dataSource: {},
       currentItem: {},
+      currentItemID: "",
       isDataLoadingDone: false,
       isFontLoadingDone: false
     };
@@ -36,6 +37,7 @@ export default class App extends React.Component {
   /*--------------------------------------------------
   ⭑ Lifecycle events
   ----------------------------------------------------*/
+
   componentDidMount() {
     registerForPushNotifications();
     Notifications.addListener(this.handleNotification);
@@ -43,7 +45,7 @@ export default class App extends React.Component {
     this.loadFonts();
     AnalyticsHelper.trackEvent(AnalyticsHelper.eventEnum().appOpen);
 
-    this.checkAndFetchEntries();
+    this.fetchEntries();
   }
 
   /*--------------------------------------------------
@@ -123,23 +125,16 @@ export default class App extends React.Component {
       ? notification.data.id
       : this.props.exp.notification;
 
-    await this.fetchEntries(entryID);
+    this.setState({ currentItemID: entryID });
   }
 
-  checkAndFetchEntries() {
-    // Is data already being fetched via the notification handler?
-    if (this.props.exp.notification) return;
-
-    this.fetchEntries();
-  }
-
-  async fetchEntries(entryID) {
+  async fetchEntries() {
     try {
       // Prepare data for api call
       const urlBase =
         "https://h9r2pkur9g.execute-api.us-east-1.amazonaws.com/Prod/items";
-      const urlParams = "?entryID=" + entryID;
-      const url = entryID ? urlBase + urlParams : urlBase;
+      const urlParams = "?entryID=" + this.state.currentItemID;
+      const url = this.state.currentItemID ? urlBase + urlParams : urlBase;
       console.log(url);
 
       const obj = {
@@ -156,6 +151,7 @@ export default class App extends React.Component {
       // Set internal state
       this.setState({
         isDataLoadingDone: true,
+        currentItemID: "",
         dataSource: responseJson.allItems,
         currentItem: responseJson.currentItem
       });
