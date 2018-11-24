@@ -124,19 +124,26 @@ export default class App extends React.Component {
     let entryID = notification.data.id
       ? notification.data.id
       : this.props.exp.notification;
-
     this.setState({ currentItemID: entryID });
+  }
+
+  getFetchURL() {
+    const urlBase =
+      "https://h9r2pkur9g.execute-api.us-east-1.amazonaws.com/Prod/items";
+
+    const entryID = this.state.currentItemID
+      ? this.state.currentItemID
+      : this.props.exp.notification;
+
+    const urlParams = "?entryID=" + entryID;
+    const url = this.state.currentItemID ? urlBase + urlParams : urlBase;
+    console.log(url);
+
+    return url;
   }
 
   async fetchEntries() {
     try {
-      // Prepare data for api call
-      const urlBase =
-        "https://h9r2pkur9g.execute-api.us-east-1.amazonaws.com/Prod/items";
-      const urlParams = "?entryID=" + this.state.currentItemID;
-      const url = this.state.currentItemID ? urlBase + urlParams : urlBase;
-      console.log(url);
-
       const obj = {
         method: "GET",
         headers: {
@@ -145,6 +152,7 @@ export default class App extends React.Component {
         }
       };
 
+      let url = this.getFetchURL();
       let response = await fetch(url, obj);
       let responseJson = await response.json();
 
