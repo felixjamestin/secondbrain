@@ -135,8 +135,7 @@ export default class App extends React.Component {
       ? this.state.currentItemID
       : this.props.exp.notification;
 
-    const urlParams = "?entryID=" + entryID;
-    const url = this.state.currentItemID ? urlBase + urlParams : urlBase;
+    const url = entryID ? urlBase + "?entryID=" + entryID : urlBase;
     console.log(url);
 
     return url;
