@@ -12,6 +12,7 @@ import {
 } from "./src/components/Index";
 import { ColorConstants } from "./src/components/common/Index";
 import { ArrayHelper } from "./src/helpers/Index";
+import { LogService } from "./src/services/Index";
 import config from "./aws-exports";
 
 Amplify.configure(config);
@@ -124,7 +125,14 @@ export default class App extends React.Component {
     let entryID = notification.data.id
       ? notification.data.id
       : this.props.exp.notification;
+
     this.setState({ currentItemID: entryID });
+
+    LogService.log("handleNotification");
+    LogService.log("notification.data.id: " + notification.data.id);
+    LogService.log(
+      "this.props.exp.notification: " + this.props.exp.notification
+    );
   }
 
   getFetchURL() {
@@ -136,7 +144,14 @@ export default class App extends React.Component {
       : this.props.exp.notification;
 
     const url = entryID ? urlBase + "?entryID=" + entryID : urlBase;
-    console.log(url);
+
+    LogService.log("getFetchURL");
+    LogService.log("entryID: " + entryID);
+    LogService.log("this.state.currentItemID: " + this.state.currentItemID);
+    LogService.log(
+      "this.props.exp.notification: " + this.props.exp.notification
+    );
+    LogService.log("url: " + url);
 
     return url;
   }
