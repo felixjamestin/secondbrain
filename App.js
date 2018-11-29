@@ -126,37 +126,38 @@ export default class App extends React.Component {
       ? notification.data.id
       : this.props.exp.notification;
 
-    this.setState({ currentItemID: entryID });
+    this.setState({ currentItemID: entryID }); //TODO: Remove currentID from state if unused
+    this.fetchEntries(entryID);
 
-    LogService.log("handleNotification");
+    LogService.log("handleNotification: " + new Date());
     LogService.log("notification.data.id: " + notification.data.id);
     LogService.log(
-      "this.props.exp.notification: " + this.props.exp.notification
+      "this.props.exp.notification: " +
+        JSON.stringify(this.props.exp.notification)
     );
   }
 
-  getFetchURL() {
+  getFetchURL(id) {
     const urlBase =
       "https://h9r2pkur9g.execute-api.us-east-1.amazonaws.com/Prod/items";
 
-    const entryID = this.state.currentItemID
-      ? this.state.currentItemID
-      : this.props.exp.notification;
+    const entryID = id ? id : this.props.exp.notification;
 
     const url = entryID ? urlBase + "?entryID=" + entryID : urlBase;
 
-    LogService.log("getFetchURL");
-    LogService.log("entryID: " + entryID);
+    LogService.log("getFetchURL: " + new Date());
+    LogService.log("entryID: " + JSON.stringify(entryID));
     LogService.log("this.state.currentItemID: " + this.state.currentItemID);
     LogService.log(
-      "this.props.exp.notification: " + this.props.exp.notification
+      "this.props.exp.notification: " +
+        JSON.stringify(this.props.exp.notification)
     );
     LogService.log("url: " + url);
 
     return url;
   }
 
-  async fetchEntries() {
+  async fetchEntries(id = "") {
     try {
       const obj = {
         method: "GET",
@@ -166,7 +167,7 @@ export default class App extends React.Component {
         }
       };
 
-      let url = this.getFetchURL();
+      let url = this.getFetchURL(id);
       let response = await fetch(url, obj);
       let responseJson = await response.json();
 
