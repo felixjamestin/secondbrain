@@ -1,16 +1,12 @@
 class LogService {
-  static getRandomStringFromArray(strings = []) {
-    const randomIndex = Math.floor(Math.random() * strings.length);
-    return strings[randomIndex];
-  }
-
   static log(string) {
     let timestamp = new Date();
     let body = {
       lines: [
         {
+          app: timestamp,
           timestamp: timestamp,
-          line: "From SB APP: " + string
+          line: string
         }
       ]
     };

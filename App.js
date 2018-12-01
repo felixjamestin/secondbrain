@@ -124,9 +124,10 @@ export default class App extends React.Component {
   async handleNotification(notification) {
     let entryID = notification.data.id
       ? notification.data.id
-      : this.props.exp.notification;
+      : this.props.exp.notification
+      ? this.props.exp.notification.data.id
+      : "";
 
-    this.setState({ currentItemID: entryID }); //TODO: Remove currentID from state if unused
     this.fetchEntries(entryID);
 
     LogService.log("handleNotification: " + new Date());
@@ -141,7 +142,11 @@ export default class App extends React.Component {
     const urlBase =
       "https://h9r2pkur9g.execute-api.us-east-1.amazonaws.com/Prod/items";
 
-    const entryID = id ? id : this.props.exp.notification;
+    const entryID = id
+      ? id
+      : this.props.exp.notification
+      ? this.props.exp.notification.data.id
+      : "";
 
     const url = entryID ? urlBase + "?entryID=" + entryID : urlBase;
 
