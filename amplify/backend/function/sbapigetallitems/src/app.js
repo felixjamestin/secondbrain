@@ -58,7 +58,7 @@ async function getEntriesFromAirtable() {
   const token = "key34bOupUaggtKkP";
   const requestOptions = {
     uri:
-      "https://api.airtable.com/v0/apptkZub52FJhrud6/secondbrain?maxRecords=500&view=Grid%20view",
+      "https://api.airtable.com/v0/apptkZub52FJhrud6/secondbrain?maxRecords=1000&view=Grid%20view",
     method: "GET",
     json: true,
     headers: {
