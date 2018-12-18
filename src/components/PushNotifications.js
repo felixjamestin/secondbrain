@@ -30,7 +30,7 @@ async function sendUserDetailsToBackend(token) {
   // Get user's notification preferences
   // TODO: Add user settings for these
   const shouldSendDailyNotifications = true;
-  const dailyNotificationHour = new Date();
+  const dailyNotificationTime = new Date().getTime();
 
   // Get user's timezone
   const date = new Date();
@@ -45,7 +45,7 @@ async function sendUserDetailsToBackend(token) {
       email: "felixjamestin@gmail.com",
       shouldSendDailyNotifications: shouldSendDailyNotifications,
       timeZoneOffset: timeZoneOffset,
-      dailyNotificationHour: dailyNotificationHour,
+      dailyNotificationTime: dailyNotificationTime,
       deviceID: Constants.deviceId,
       deviceName: Constants.deviceName
     }
