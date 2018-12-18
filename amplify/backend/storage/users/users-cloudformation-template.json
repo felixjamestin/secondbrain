@@ -22,6 +22,11 @@
                   {
                       "AttributeName": "token",
                       "AttributeType": "S"
+                  }  , 
+                  
+                  {
+                      "AttributeName": "deviceID",
+                      "AttributeType": "S"
                   } 
                   
                 ],
@@ -40,6 +45,29 @@
                 "TableName": {
                    "Ref": "tableName"
                 },
+                
+                "GlobalSecondaryIndexes": [
+                  
+                    {
+                        "IndexName": "deviceID",
+                        "KeySchema": [
+                            
+                            {
+                                "AttributeName": "deviceID",
+                                "KeyType": "HASH"
+                            } 
+                            
+                        ],
+                        "Projection": {
+                            "ProjectionType": "ALL"
+                        },
+                        "ProvisionedThroughput": {
+                            "ReadCapacityUnits": "5",
+                            "WriteCapacityUnits": "5"
+                        }
+                    } 
+                  
+                ]
                 
             }
         }

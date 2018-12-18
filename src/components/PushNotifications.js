@@ -1,4 +1,4 @@
-import { Permissions, Notifications } from "expo";
+import { Permissions, Notifications, Constants } from "expo";
 import { API } from "aws-amplify";
 
 /*---------------------------------------------------
@@ -13,8 +13,8 @@ async function registerForPushNotifications() {
     // 2. Get device push token
     let token = await Notifications.getExpoPushTokenAsync();
 
-    // 3. Send token to backend
-    sendPushTokenToBackend(token);
+    // 3. Send user details (push token, user timezone, etc) to backend
+    sendUserDetailsToBackend(token);
   } catch (error) {
     console.log(error);
   }
@@ -23,14 +23,32 @@ async function registerForPushNotifications() {
 /*---------------------------------------------------
 ⭑ Sub functions
 ----------------------------------------------------*/
-async function sendPushTokenToBackend(token) {
+async function sendUserDetailsToBackend(token) {
   const apiName = "sbapi";
   const createPath = "/users";
+
+  // Get user's notification preferences
+  // TODO: Add user settings for these
+  const shouldSendDailyNotifications = true;
+  const dailyNotificationHour = new Date();
+
+  // Get user's timezone
+  const date = new Date();
+  const timeZoneOffset = date.getTimezoneOffset() / 60;
+
   const newItem = {
-    headers: {}, // OPTIONAL
-    response: true, // OPTIONAL (return the entire Axios response object instead of only response.data)
-    queryStringParameters: {}, // OPTIONAL
-    body: { token: token, email: "felixjamestin@gmail.com" }
+    headers: {},
+    response: true,
+    queryStringParameters: {},
+    body: {
+      token: token,
+      email: "felixjamestin@gmail.com",
+      shouldSendDailyNotifications: shouldSendDailyNotifications,
+      timeZoneOffset: timeZoneOffset,
+      dailyNotificationHour: dailyNotificationHour,
+      deviceID: Constants.deviceId,
+      deviceName: Constants.deviceName
+    }
   };
   await API.post(apiName, createPath, newItem);
 }

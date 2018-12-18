@@ -55,10 +55,17 @@ app.get("/items/*", function(req, res) {
 ⭑ Component functions
 ----------------------------------------------------*/
 async function getEntriesFromAirtable() {
+  // TODO:
+  const tokenOld = "key34bOupUaggtKkP";
+  const uriOld =
+    "https://api.airtable.com/v0/apptkZub52FJhrud6/secondbrain?maxRecords=1000&view=Grid%20view";
+
   const token = "key34bOupUaggtKkP";
+  const uri =
+    "https://api.airtable.com/v0/appfE7KsVoV5uiRhK/personal?maxRecords=1000&view=Grid%20view";
+
   const requestOptions = {
-    uri:
-      "https://api.airtable.com/v0/apptkZub52FJhrud6/secondbrain?maxRecords=500&view=Grid%20view",
+    uri: uri,
     method: "GET",
     json: true,
     headers: {

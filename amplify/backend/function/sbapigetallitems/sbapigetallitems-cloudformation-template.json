@@ -17,7 +17,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "secondbrainapp-20181023151350-deployment",
-					"S3Key": "amplify-builds/sbapigetallitems-1542195636-latest-build.zip"
+					"S3Key": "amplify-builds/sbapigetallitems-1544699124-latest-build.zip"
 				}
 			}
 		},
