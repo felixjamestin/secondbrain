@@ -18,14 +18,18 @@ class LoadingState extends PureComponent {
           color={ColorConstants.baseColors.white}
           style={styles.loading_spinner}
         />
-        <Text style={styles.loading_text}>Loading</Text>
-        <Text style={styles.loading_text_secondary}>
-          When you realize nothing is lacking, the whole world belongs to you -
-          Lao Tzu
-        </Text>
+
+        <Text style={styles.loading_text}>{this.getLoadingText()}</Text>
       </View>
     );
   }
+
+  getLoadingText = () => {
+    const defaultText =
+      "When you realize nothing is lacking, the whole world belongs to you - Lao Tzu";
+
+    return this.props.loadingText ? this.props.loadingText : defaultText;
+  };
 }
 
 /*---------------------------------------------------
@@ -39,20 +43,17 @@ const styles = StyleSheet.create({
   },
   loading_text: {
     color: ColorConstants.baseColors.white,
-    fontSize: 13,
-    opacity: 0,
-    marginTop: 15
-  },
-  loading_text_secondary: {
-    color: ColorConstants.baseColors.white,
     fontSize: 12,
     opacity: 0.7,
+    marginTop: 20,
     marginHorizontal: 57,
+    marginBottom: 150,
     textAlign: "center",
     lineHeight: 20
   },
   loading_spinner: {
     opacity: 0.8,
+    marginTop: 50,
     marginBottom: -10
   }
 });

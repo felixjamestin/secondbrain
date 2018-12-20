@@ -5,11 +5,6 @@ import { ColorConstants } from "./common/Index";
 class Footer extends React.PureComponent {
   constructor(props) {
     super(props);
-
-    // Initializations
-    this.state = {
-      showNextExcerpt: false
-    };
   }
 
   /*--------------------------------------------------
@@ -40,7 +35,7 @@ class Footer extends React.PureComponent {
     Helpers & Handlers
   ----------------------------------------------------*/
   onShowNext = () => {
-    this.props.onShowNextExcerpt(true);
+    this.props.onShowNextExcerpt();
   };
 }
 

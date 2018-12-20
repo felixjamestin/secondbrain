@@ -47,10 +47,18 @@ class Excerpt extends React.PureComponent {
           />
         </View>
 
-        <BodyImage uri={uri} doesDescriptionExist={doesDescriptionExist} />
+        {this.renderBodyImage(uri, doesDescriptionExist)}
       </View>
     );
   }
+
+  renderBodyImage = (uri, doesDescriptionExist) => {
+    const image = (
+      <BodyImage uri={uri} doesDescriptionExist={doesDescriptionExist} />
+    );
+
+    return uri !== "" ? image : "";
+  };
 
   renderFooter = () => {
     const onShowNextExcerpt = this.props.onShowNextExcerpt;

@@ -23,7 +23,7 @@ export default class App extends React.Component {
 
     // Initializations
     this.state = {
-      dataSource: {},
+      dataSource: [],
       currentItem: {},
       currentItemID: "",
       isDataLoadingDone: false,
@@ -106,9 +106,7 @@ export default class App extends React.Component {
     return isDataEmpty;
   }
 
-  handleShowNextExcerpt(showNextExcerpt) {
-    if (showNextExcerpt !== true) return false;
-
+  handleShowNextExcerpt() {
     const item = this.getRandomItem();
     this.setState({
       currentItem: item

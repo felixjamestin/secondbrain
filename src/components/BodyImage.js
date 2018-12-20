@@ -1,32 +1,52 @@
 import React, { PureComponent } from "react";
 import { View, Image, StyleSheet } from "react-native";
+import { LoadingState } from "./Index";
 
 class BodyImage extends PureComponent {
   constructor(props) {
     super(props);
+
+    // Initializations
+    this.state = {
+      isLoadingDone: false
+    };
   }
 
   /*--------------------------------------------------
   ⭑ Render UI
   ----------------------------------------------------*/
   render() {
-    const style = this.getItemStyles();
+    return (
+      <View style={this.getItemStyles()}>
+        {this.renderImage(this.props.uri)}
+        {this.checkAndShowLoader()}
+      </View>
+    );
+  }
 
-    return <View style={style}>{this.renderImage(this.props.uri)}</View>;
+  checkAndShowLoader() {
+    const loader = <LoadingState loadingText="Loading image" />;
+    return this.state.isLoadingDone === false ? loader : "";
   }
 
   renderImage(uri) {
     const imageView = (
       <Image
-        style={styles.excerpt_image}
+        style={
+          this.state.isLoadingDone
+            ? styles.excerpt_image
+            : styles.container_excerpt_image_only
+        }
         source={{
           uri: uri
         }}
         resizeMode="contain"
+        onLoadStart={this.handleLoadStart}
+        onLoadEnd={this.handleLoadComplete}
       />
     );
 
-    return uri ? imageView : "";
+    return uri !== "" ? imageView : "";
   }
 
   /*--------------------------------------------------
@@ -39,6 +59,14 @@ class BodyImage extends PureComponent {
 
     return style;
   }
+
+  handleLoadStart = () => {
+    this.setState({ isLoadingDone: false });
+  };
+
+  handleLoadComplete = () => {
+    this.setState({ isLoadingDone: true });
+  };
 }
 
 /*---------------------------------------------------
@@ -56,6 +84,7 @@ const styles = StyleSheet.create({
     paddingRight: 15
   },
   excerpt_image: {
+    display: "flex",
     width: "100%",
     height: 400,
     marginLeft: 0,
@@ -63,6 +92,9 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     shadowColor: "black",
     shadowOffset: { height: 2, width: 0 }
+  },
+  excerpt_image_loading: {
+    display: "none"
   }
 });
 
