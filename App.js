@@ -12,7 +12,7 @@ import {
 } from "./src/components/Index";
 import { ColorConstants } from "./src/components/common/Index";
 import { ArrayHelper } from "./src/helpers/Index";
-import { LogService } from "./src/services/Index";
+import { LogService, StorageService } from "./src/services/Index";
 import config from "./aws-exports";
 
 Amplify.configure(config);
@@ -25,7 +25,6 @@ export default class App extends React.Component {
     this.state = {
       dataSource: [],
       currentItem: {},
-      currentItemID: "",
       isDataLoadingDone: false,
       isFontLoadingDone: false
     };
@@ -136,54 +135,15 @@ export default class App extends React.Component {
     );
   }
 
-  getFetchURL(id) {
-    const urlBase =
-      "https://h9r2pkur9g.execute-api.us-east-1.amazonaws.com/Prod/items";
-
-    const entryID = id
-      ? id
-      : this.props.exp.notification
-      ? this.props.exp.notification.data.id
-      : "";
-
-    const url = entryID ? urlBase + "?entryID=" + entryID : urlBase;
-
-    LogService.log("getFetchURL: " + new Date());
-    LogService.log("entryID: " + JSON.stringify(entryID));
-    LogService.log("this.state.currentItemID: " + this.state.currentItemID);
-    LogService.log(
-      "this.props.exp.notification: " +
-        JSON.stringify(this.props.exp.notification)
-    );
-    LogService.log("url: " + url);
-
-    return url;
-  }
-
   async fetchEntries(id = "") {
-    try {
-      const obj = {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        }
-      };
+    const items = await StorageService.fetchData(id);
 
-      let url = this.getFetchURL(id);
-      let response = await fetch(url, obj);
-      let responseJson = await response.json();
-
-      // Set internal state
-      this.setState({
-        isDataLoadingDone: true,
-        currentItemID: "",
-        dataSource: responseJson.allItems,
-        currentItem: responseJson.currentItem
-      });
-    } catch (error) {
-      console.error(error);
-    }
+    // Set internal state
+    this.setState({
+      isDataLoadingDone: true,
+      dataSource: items.allItems,
+      currentItem: items.currentItem
+    });
   }
 
   async loadFonts() {
