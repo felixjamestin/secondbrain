@@ -13,6 +13,13 @@
             "privacy": {
                 "open": true
             }
+        },
+        {
+            "name": "/pushnotifications",
+            "lambdaFunction": "sbapisendpushnotifications",
+            "privacy": {
+                "open": true
+            }
         }
     ],
     "resourceName": "sbapi",
@@ -23,6 +30,9 @@
         },
         {
             "lambdaFunction": "sbapigetallitems"
+        },
+        {
+            "lambdaFunction": "sbapisendpushnotifications"
         }
     ],
     "privacy": {
@@ -47,7 +57,15 @@
                 "Name",
                 "Arn"
             ]
+        },
+        {
+            "category": "function",
+            "resourceName": "sbapisendpushnotifications",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
         }
     ],
-    "uuid": "cb4c0a5b"
+    "uuid": "4a775bdb"
 }

@@ -64,9 +64,7 @@ function sendPushNotifications(randomEntry, pushTokens) {
   let { title, body } = getPushTextForEntry(randomEntry);
 
   const pushTokensExcludingExpoClient = pushTokens.Items.filter(item => {
-    return item.token !== "ExponentPushToken[XUtLrhKJ9HQEawAmP5R2Pr]"
-      ? true
-      : false;
+    return item.appType === "standalone" ? true : false; // Don't send pushes to apps launched from the expo client
   });
 
   const pushBodyForRecepients = pushTokensExcludingExpoClient.map(item => {
