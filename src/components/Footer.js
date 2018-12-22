@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet, TouchableOpacity, Text, Image } from "react-native";
-import { ColorConstants } from "./common/Index";
+import { Constants } from "./common/Index";
 
 class Footer extends React.PureComponent {
   constructor(props) {
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   show_next_text: {
     fontFamily: "overpass-light",
     fontSize: 15,
-    color: ColorConstants.baseColors.white
+    color: Constants.baseColors.white
   }
 });
 

@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import { Text, View, StyleSheet, ActivityIndicator } from "react-native";
-import { ColorConstants } from "./common/ColorConstants";
+import { Constants } from "./common/Constants";
 
 class LoadingState extends PureComponent {
   constructor(props) {
@@ -15,7 +15,7 @@ class LoadingState extends PureComponent {
       <View style={styles.container}>
         <ActivityIndicator
           size="small"
-          color={ColorConstants.baseColors.white}
+          color={Constants.baseColors.white}
           style={styles.loading_spinner}
         />
 
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   loading_text: {
-    color: ColorConstants.baseColors.white,
+    color: Constants.baseColors.white,
     fontSize: 12,
     opacity: 0.7,
     marginTop: 20,

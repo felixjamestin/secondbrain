@@ -1,6 +1,6 @@
 /*--------------------------------------------------
 ⭑ Description: This is a job that sends push
-⭑ notifications to the secondbrain clients
+⭑ notifications to the secondbrain & derivative clients
 ----------------------------------------------------*/
 
 const AWS = require("aws-sdk");

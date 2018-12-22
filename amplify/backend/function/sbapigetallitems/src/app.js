@@ -1,11 +1,7 @@
-/*
-Copyright 2017 - 2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance with the License. A copy of the License is located at
-    http://aws.amazon.com/apache2.0/
-or in the "license" file accompanying this file. This file is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and limitations under the License.
-*/
-
+/*--------------------------------------------------
+⭑ Description: This is a lambda function to return
+* entries stored in Airtable
+----------------------------------------------------*/
 var express = require("express");
 var bodyParser = require("body-parser");
 var awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
@@ -26,19 +22,18 @@ app.use(function(req, res, next) {
   next();
 });
 
-/**********************
- * Example get method *
- **********************/
-
+/*--------------------------------------------------
+⭑ Handle GET
+----------------------------------------------------*/
 app.get("/items", async function(req, res) {
   try {
-    let items = await getEntriesFromAirtable();
+    let items = await _getEntriesFromAirtable();
     let sanitizedItems = items.records.filter(item => {
       return Object.keys(item.fields).length > 0;
     });
 
-    let entryID = getIDForCurrentItem(req.apiGateway.event);
-    let currentItem = getCurrentItem(sanitizedItems, entryID);
+    let entryID = _getIDForCurrentItem(req.apiGateway.event);
+    let currentItem = _getCurrentItem(sanitizedItems, entryID);
 
     res.json({ currentItem: currentItem, allItems: sanitizedItems });
   } catch (err) {
@@ -52,14 +47,9 @@ app.get("/items/*", function(req, res) {
 });
 
 /*--------------------------------------------------
-⭑ Component functions
+⭑ Private functions
 ----------------------------------------------------*/
-async function getEntriesFromAirtable() {
-  // TODO:
-  const tokenOld = "key34bOupUaggtKkP";
-  const uriOld =
-    "https://api.airtable.com/v0/apptkZub52FJhrud6/secondbrain?maxRecords=1000&view=Grid%20view";
-
+async function _getEntriesFromAirtable() {
   const token = "key34bOupUaggtKkP";
   const uri =
     "https://api.airtable.com/v0/appfE7KsVoV5uiRhK/personal?maxRecords=1000&view=Grid%20view";
@@ -78,12 +68,12 @@ async function getEntriesFromAirtable() {
   return requestpromise(requestOptions);
 }
 
-function getCurrentItem(items, entryID) {
+function _getCurrentItem(items, entryID) {
   let item;
   switch (entryID) {
     case "":
       // Return random item if no specific entryID is requested
-      item = getRandomItem(items);
+      item = _getRandomItem(items);
       break;
 
     default:
@@ -92,7 +82,7 @@ function getCurrentItem(items, entryID) {
       });
 
       if (item === undefined) {
-        item = getRandomItem(items);
+        item = _getRandomItem(items);
       }
 
       break;
@@ -101,12 +91,12 @@ function getCurrentItem(items, entryID) {
   return item;
 }
 
-function getRandomItem(items) {
+function _getRandomItem(items) {
   const randomIndex = Math.floor(Math.random() * items.length);
   return items[randomIndex];
 }
 
-function getIDForCurrentItem(event) {
+function _getIDForCurrentItem(event) {
   return event.queryStringParameters
     ? event.queryStringParameters.entryID
       ? event.queryStringParameters.entryID
@@ -114,48 +104,9 @@ function getIDForCurrentItem(event) {
     : "";
 }
 
-/****************************
- * Example post method *
- ****************************/
-
-app.post("/items", function(req, res) {
-  // Add your code here
-  res.json({ success: "post call succeed!", url: req.url, body: req.body });
-});
-
-app.post("/items/*", function(req, res) {
-  // Add your code here
-  res.json({ success: "post call succeed!", url: req.url, body: req.body });
-});
-
-/****************************
- * Example post method *
- ****************************/
-
-app.put("/items", function(req, res) {
-  // Add your code here
-  res.json({ success: "put call succeed!", url: req.url, body: req.body });
-});
-
-app.put("/items/*", function(req, res) {
-  // Add your code here
-  res.json({ success: "put call succeed!", url: req.url, body: req.body });
-});
-
-/****************************
- * Example delete method *
- ****************************/
-
-app.delete("/items", function(req, res) {
-  // Add your code here
-  res.json({ success: "delete call succeed!", url: req.url });
-});
-
-app.delete("/items/*", function(req, res) {
-  // Add your code here
-  res.json({ success: "delete call succeed!", url: req.url });
-});
-
+/*--------------------------------------------------
+⭑ Start server
+----------------------------------------------------*/
 app.listen(3000, function() {
   console.log("App started");
 });

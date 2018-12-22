@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { ColorConstants } from "./common/Index";
+import { Constants } from "./common/Index";
 
 class BlankState extends React.PureComponent {
   constructor(props) {
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     marginTop: 0
   },
   text: {
-    color: ColorConstants.baseColors.white,
+    color: Constants.baseColors.white,
     fontFamily: "overpass-light",
     fontSize: 15
   }

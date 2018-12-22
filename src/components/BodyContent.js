@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { MarkdownView } from "react-native-markdown-view";
-import { ColorConstants } from "./common/Index";
+import { Constants } from "./common/Index";
 import { StringHelper } from "../helpers/Index";
 
 class BodyContent extends PureComponent {
@@ -71,7 +71,7 @@ class BodyContent extends PureComponent {
 ----------------------------------------------------*/
 const styles = StyleSheet.create({
   excerpt_body_small: {
-    color: ColorConstants.baseColors.white,
+    color: Constants.baseColors.white,
     marginBottom: 0,
     fontFamily: "overpass-light",
     fontSize: 15,
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     opacity: 1
   },
   excerpt_body_medium: {
-    color: ColorConstants.baseColors.white,
+    color: Constants.baseColors.white,
     marginBottom: 0,
     fontFamily: "overpass-light",
     fontSize: 15,
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     opacity: 1
   },
   excerpt_body_large: {
-    color: ColorConstants.baseColors.white,
+    color: Constants.baseColors.white,
     marginBottom: 0,
     fontFamily: "overpass-thin",
     fontSize: 24,
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     opacity: 1
   },
   excerpt_body_superlarge: {
-    color: ColorConstants.baseColors.white,
+    color: Constants.baseColors.white,
     marginVertical: 50,
     fontFamily: "overpass-thin",
     fontSize: 28,
@@ -132,7 +132,7 @@ const markdownStyles = {
     fontWeight: "700"
   },
   heading1: {
-    color: ColorConstants.baseColors.white,
+    color: Constants.baseColors.white,
     fontFamily: "overpass-light",
     letterSpacing: 0.5,
     fontSize: 24,
@@ -141,7 +141,7 @@ const markdownStyles = {
     marginHorizontal: 0
   },
   heading2: {
-    color: ColorConstants.baseColors.white,
+    color: Constants.baseColors.white,
     fontFamily: "overpass-light",
     letterSpacing: 0.5,
     fontSize: 15,
@@ -149,7 +149,7 @@ const markdownStyles = {
     marginBottom: 12
   },
   heading3: {
-    color: ColorConstants.baseColors.white,
+    color: Constants.baseColors.white,
     fontFamily: "overpass-light",
     letterSpacing: 0.5,
     fontSize: 15,
@@ -157,7 +157,7 @@ const markdownStyles = {
     marginBottom: 12
   },
   heading4: {
-    color: ColorConstants.baseColors.white,
+    color: Constants.baseColors.white,
     fontFamily: "overpass-light",
     letterSpacing: 0.5,
     fontSize: 16,
@@ -166,7 +166,7 @@ const markdownStyles = {
     marginHorizontal: 0
   },
   heading5: {
-    color: ColorConstants.baseColors.white,
+    color: Constants.baseColors.white,
     fontFamily: "overpass-light",
     letterSpacing: 0.5,
     fontSize: 14,
@@ -175,7 +175,7 @@ const markdownStyles = {
     marginHorizontal: 0
   },
   heading6: {
-    color: ColorConstants.baseColors.white,
+    color: Constants.baseColors.white,
     fontFamily: "overpass-light",
     letterSpacing: 0.5,
     fontSize: 11,
@@ -211,28 +211,28 @@ const markdownStyles = {
     flexDirection: "row"
   },
   listItemNumber: {
-    color: ColorConstants.baseColors.white,
+    color: Constants.baseColors.white,
     fontFamily: "overpass-light",
     letterSpacing: 0.5,
     minWidth: 28,
     paddingRight: 4
   },
   listItemBullet: {
-    color: ColorConstants.baseColors.white,
+    color: Constants.baseColors.white,
     fontFamily: "overpass-light",
     letterSpacing: 0.5,
     minWidth: 20,
     opacity: 0.8
   },
   listItemOrderedContent: {
-    color: ColorConstants.baseColors.white,
+    color: Constants.baseColors.white,
     fontFamily: "overpass-thin",
     fontSize: 13,
     letterSpacing: 0.5,
     flex: 1
   },
   listItemUnorderedContent: {
-    color: ColorConstants.baseColors.white,
+    color: Constants.baseColors.white,
     fontFamily: "overpass-thin",
     fontSize: 13,
     letterSpacing: 0.5,
@@ -241,14 +241,14 @@ const markdownStyles = {
     opacity: 1
   },
   paragraph: {
-    color: ColorConstants.baseColors.white,
+    color: Constants.baseColors.white,
     fontFamily: "overpass-light",
     letterSpacing: 0.5,
     marginTop: 10,
     marginBottom: 10
   },
   strong: {
-    color: ColorConstants.baseColors.white,
+    color: Constants.baseColors.white,
     fontFamily: "overpass-light",
     letterSpacing: 0.5,
     fontWeight: "700"
@@ -286,7 +286,7 @@ const markdownStyles = {
   tableCellContentEvenColumn: {},
   tableCellContentLastColumn: {},
   u: {
-    color: ColorConstants.baseColors.white,
+    color: Constants.baseColors.white,
     textDecorationLine: "underline"
   }
 };

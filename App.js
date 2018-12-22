@@ -7,12 +7,11 @@ import {
   Excerpt,
   BlankState,
   LoadingState,
-  registerForPushNotifications,
   AnalyticsHelper
 } from "./src/components/Index";
-import { ColorConstants } from "./src/components/common/Index";
+import { Constants } from "./src/components/common/Index";
 import { ArrayHelper } from "./src/helpers/Index";
-import { LogService, StorageService } from "./src/services/Index";
+import { LogService, StorageService, UserService } from "./src/services/Index";
 import config from "./aws-exports";
 
 Amplify.configure(config);
@@ -39,7 +38,7 @@ export default class App extends React.Component {
   ----------------------------------------------------*/
 
   componentDidMount() {
-    registerForPushNotifications();
+    UserService.registerUser();
     Notifications.addListener(this.handleNotification);
 
     this.loadFonts();
@@ -166,7 +165,7 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: ColorConstants.baseColors.darkGrey
+    backgroundColor: Constants.baseColors.darkGrey
   },
   container: {
     flex: 1,

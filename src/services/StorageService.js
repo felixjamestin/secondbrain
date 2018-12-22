@@ -1,5 +1,4 @@
 import { AsyncStorage } from "react-native";
-import { LogService } from "./Index";
 import { CONFIG } from "../config/Index";
 
 class StorageService {

@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import { Text, View, StyleSheet } from "react-native";
-import { ColorConstants } from "./common/ColorConstants";
+import { Constants } from "./common/Constants";
 
 class BodyMetaDesc extends PureComponent {
   constructor(props) {
@@ -41,8 +41,8 @@ class BodyMetaDesc extends PureComponent {
       author === "-" || author === ""
         ? styles.excerpt_author_empty
         : title === "-" || title === ""
-          ? styles.excerpt_author
-          : styles.excerpt_author_secondary;
+        ? styles.excerpt_author
+        : styles.excerpt_author_secondary;
 
     itemStyle.redbar = this.props.doesDescriptionExist
       ? styles.redbar
@@ -57,7 +57,7 @@ class BodyMetaDesc extends PureComponent {
 ----------------------------------------------------*/
 const styles = StyleSheet.create({
   redbar: {
-    backgroundColor: ColorConstants.baseColors.red,
+    backgroundColor: Constants.baseColors.red,
     height: 2,
     width: 40,
     marginTop: 10,
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     opacity: 0
   },
   excerpt_title: {
-    color: ColorConstants.baseColors.white,
+    color: Constants.baseColors.white,
     fontFamily: "overpass-light",
     fontSize: 15,
     letterSpacing: 0.5
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     opacity: 0
   },
   excerpt_author: {
-    color: ColorConstants.baseColors.white,
+    color: Constants.baseColors.white,
     fontFamily: "overpass-light",
     fontSize: 15,
     letterSpacing: 0.5
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     opacity: 0
   },
   excerpt_author_secondary: {
-    color: ColorConstants.baseColors.white,
+    color: Constants.baseColors.white,
     fontFamily: "overpass-light",
     fontSize: 13,
     opacity: 0.65,
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5
   },
   excerpt_type: {
-    color: ColorConstants.baseColors.white,
+    color: Constants.baseColors.white,
     fontFamily: "overpass-light",
     fontSize: 15
   }
