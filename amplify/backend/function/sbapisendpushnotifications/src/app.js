@@ -30,6 +30,18 @@ app.use(function(req, res, next) {
 ----------------------------------------------------*/
 app.get("/pushnotifications", async function(req, res) {
   try {
+    /*
+     * Inside new API
+     * Get all items & corr. random entries from Airtable (i.e. per sheet)
+     * Get relevant push keys for sending
+     * Get all keys for all apps
+     * Select only those key’s whose current time in their timezone +-5 == 9am
+     * Send push notifications to the relevant push keys
+     * Delete old API from client & server
+     */
+
+    console.log("Starting...");
+
     // 1. Get random item from airtable
     let items = await _getEntriesFromAirtable();
     let item = items.currentItem;
@@ -87,7 +99,7 @@ function _sendPushNotifications(randomEntry, pushTokens) {
   let { title, body } = _getPushTextForEntry(randomEntry);
 
   const pushTokensExcludingExpoClient = pushTokens.Items.filter(item => {
-    return item.appType === "standalone" ? true : false; // Don't send pushes to apps launched from the expo client
+    return item.appType !== "expo" ? true : false; // Don't send pushes to apps launched from the expo client
   });
 
   const pushBodyForRecepients = pushTokensExcludingExpoClient.map(item => {
