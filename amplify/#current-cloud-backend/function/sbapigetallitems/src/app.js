@@ -7,7 +7,7 @@ var bodyParser = require("body-parser");
 var awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
 var requestpromise = require("request-promise");
 
-// declare a new express app
+// Declare a new express app
 var app = express();
 app.use(bodyParser.json());
 app.use(awsServerlessExpressMiddleware.eventContext());

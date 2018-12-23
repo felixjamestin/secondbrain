@@ -40,7 +40,7 @@ app.get("/pushnotifications", async function(req, res) {
      * Delete old API from client & server
      */
 
-    console.log("Starting...");
+    console.log("Felix: Starting...");
 
     // 1. Get random item from airtable
     let items = await _getEntriesFromAirtable();
@@ -58,6 +58,10 @@ app.get("/pushnotifications", async function(req, res) {
     console.error(error);
     res.json({ error: "Something went wrong " + err });
   }
+});
+
+app.get("/pushnotifications/*", function(req, res) {
+  res.json({ success: "get call succeed!", url: req.url });
 });
 
 /*--------------------------------------------------
