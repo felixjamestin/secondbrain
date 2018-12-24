@@ -11,25 +11,23 @@ exports.handler = async function(event, context) {
   try {
     /*
      * Inside new API
-     * Get all items & corr. random entries from Airtable (i.e. per sheet)
-     * Get relevant push keys for sending
-     * Get all keys for all apps
-     * Select only those key’s whose current time in their timezone +-5 == 9am
-     * Send push notifications to the relevant push keys
-     * Delete old API from client & server
+     1. Get all items & corr. random entries from Airtable (i.e. per sheet)
+     2. Get relevant push keys for sending
+        * Get all keys for all apps
+        * Select only those key’s whose current time in their timezone +-5 == 9am
+     3. Send push notifications to the relevant push keys
      */
 
     // 1. Get random item from airtable
     let items = await _getEntriesFromAirtable();
     let item = items.currentItem;
-    console.log(item);
 
     // 2. Read push key off dynamo db
     let pushTokens = await _getPushTokens();
 
     // 3. Call expo push api
     let result = await _sendPushNotifications(item, pushTokens);
-    console.log("----\n" + result + "----");
+    console.log(JSON.stringify(result));
   } catch (error) {
     console.error(error);
   }
