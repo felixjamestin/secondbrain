@@ -35,15 +35,15 @@
           
           
     
-          "functionsbapisendpushnotificationsName": {
+          "functionsbapisendnotificationsName": {
             "Type": "String",
-            "Default": "functionsbapisendpushnotificationsName"
+            "Default": "functionsbapisendnotificationsName"
           },
         
           
-          "functionsbapisendpushnotificationsArn": {
+          "functionsbapisendnotificationsArn": {
             "Type": "String",
-            "Default": "functionsbapisendpushnotificationsArn"
+            "Default": "functionsbapisendnotificationsArn"
           }
         
           
@@ -480,7 +480,7 @@
                 }
               },   
               
-              "/pushnotifications": {
+              "/notifications": {
                 "options": {
                   "consumes": [
                     "application/json"
@@ -566,7 +566,7 @@
                             
                             {
                                 
-                                "Ref": "functionsbapisendpushnotificationsArn"
+                                "Ref": "functionsbapisendnotificationsArn"
                             },
                             
                             "/invocations"
@@ -579,7 +579,7 @@
                   }
                 }
               },
-              "/pushnotifications/{proxy+}": {
+              "/notifications/{proxy+}": {
                 "options": {
                   "consumes": [
                     "application/json"
@@ -665,7 +665,7 @@
                           
                           {
                             
-                            "Ref": "functionsbapisendpushnotificationsArn"
+                            "Ref": "functionsbapisendnotificationsArn"
                           },
                           
                           "/invocations"
@@ -790,12 +790,12 @@
         },
         
         
-        "functionsbapisendpushnotificationsPermissionsecondbrainapp9c096788": {
+        "functionsbapisendnotificationsPermissionsecondbrainapp9c096788": {
             "Type": "AWS::Lambda::Permission",
             "Properties": {
                 "FunctionName": 
                     {
-                        "Ref":  "functionsbapisendpushnotificationsName"
+                        "Ref":  "functionsbapisendnotificationsName"
                     },
                     
                     "Action": "lambda:InvokeFunction",
@@ -827,7 +827,7 @@
         
         
         
-      "DeploymentAPIGWsecondbrainapp9c0967884a775bdb": {
+      "DeploymentAPIGWsecondbrainapp9c09678823532741": {
         "Type": "AWS::ApiGateway::Deployment",
         "Properties": {
           "Description": "The Development stage deployment of your API.",

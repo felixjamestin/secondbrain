@@ -15,8 +15,8 @@
             }
         },
         {
-            "name": "/pushnotifications",
-            "lambdaFunction": "sbapisendpushnotifications",
+            "name": "/notifications",
+            "lambdaFunction": "sbapisendnotifications",
             "privacy": {
                 "open": true
             }
@@ -32,7 +32,7 @@
             "lambdaFunction": "sbapigetallitems"
         },
         {
-            "lambdaFunction": "sbapisendpushnotifications"
+            "lambdaFunction": "sbapisendnotifications"
         }
     ],
     "privacy": {
@@ -60,12 +60,12 @@
         },
         {
             "category": "function",
-            "resourceName": "sbapisendpushnotifications",
+            "resourceName": "sbapisendnotifications",
             "attributes": [
                 "Name",
                 "Arn"
             ]
         }
     ],
-    "uuid": "4a775bdb"
+    "uuid": "23532741"
 }

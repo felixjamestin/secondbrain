@@ -183,10 +183,10 @@
 				"Parameters": {}
 			}
 		},
-		"functionsbapisendpushnotifications": {
+		"functionsbapisendnotifications": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/secondbrainapp-20181023151350-deployment/amplify-cfn-templates/function/sbapisendpushnotifications-cloudformation-template.json",
+				"TemplateURL": "https://s3.amazonaws.com/secondbrainapp-20181023151350-deployment/amplify-cfn-templates/function/sbapisendnotifications-cloudformation-template.json",
 				"Parameters": {}
 			}
 		},
@@ -219,15 +219,15 @@
 							"Outputs.Arn"
 						]
 					},
-					"functionsbapisendpushnotificationsName": {
+					"functionsbapisendnotificationsName": {
 						"Fn::GetAtt": [
-							"functionsbapisendpushnotifications",
+							"functionsbapisendnotifications",
 							"Outputs.Name"
 						]
 					},
-					"functionsbapisendpushnotificationsArn": {
+					"functionsbapisendnotificationsArn": {
 						"Fn::GetAtt": [
-							"functionsbapisendpushnotifications",
+							"functionsbapisendnotifications",
 							"Outputs.Arn"
 						]
 					}
