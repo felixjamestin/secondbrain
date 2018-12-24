@@ -1,9 +1,9 @@
 import { Permissions, Notifications, Constants } from "expo";
 import { API } from "aws-amplify";
-import { Constants as AppConstants } from "../components/common/Index";
+import { Constants as AppConstants } from "../../amplify/backend/function/sbapigetallitems/src/constants/index";
 
 class UserService {
-  static async registerUser() {
+  static async registerUser(appKey) {
     try {
       // 1. Get OS permission for push
       const wasPushNotificationPermissionObtained = await this._getOSPermissionForPushNotifications();
@@ -13,7 +13,7 @@ class UserService {
       let token = await Notifications.getExpoPushTokenAsync();
 
       // 3. Send user details (push token, user timezone, etc) to backend
-      this._sendUserDetailsToBackend(token);
+      this._sendUserDetailsToBackend(appKey, token);
     } catch (error) {
       console.log(error);
     }
@@ -22,7 +22,7 @@ class UserService {
   /*---------------------------------------------------
   ⭑ Private methods
   ----------------------------------------------------*/
-  static async _sendUserDetailsToBackend(token) {
+  static async _sendUserDetailsToBackend(appKey, token) {
     const apiName = "sbapi";
     const createPath = "/users";
 
@@ -45,7 +45,7 @@ class UserService {
         deviceID: Constants.deviceId,
         deviceName: Constants.deviceName,
         appType: Constants.appOwnership,
-        appKey: AppConstants.appKeys.sb
+        appKey: appKey
       }
     };
     await API.post(apiName, createPath, newItem);

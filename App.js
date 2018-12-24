@@ -12,6 +12,7 @@ import {
 import { Constants } from "./src/components/common/Index";
 import { ArrayHelper } from "./src/helpers/Index";
 import { LogService, StorageService, UserService } from "./src/services/Index";
+import { Constants as AppConstants } from "./amplify/backend/function/sbapigetallitems/src/constants/index";
 import config from "./aws-exports";
 
 Amplify.configure(config);
@@ -21,6 +22,7 @@ export default class App extends React.Component {
     super(props);
 
     // Initializations
+    this.appKey = AppConstants.appKeys.sb; //NOTE: Change this for each derivative app
     this.state = {
       dataSource: [],
       currentItem: {},
@@ -38,13 +40,13 @@ export default class App extends React.Component {
   ----------------------------------------------------*/
 
   componentDidMount() {
-    UserService.registerUser();
+    UserService.registerUser(this.appKey);
     Notifications.addListener(this.handleNotification);
 
     this.loadFonts();
     AnalyticsHelper.trackEvent(AnalyticsHelper.eventEnum().appOpen);
 
-    this.fetchEntries();
+    this.fetchEntries(this.appKey);
   }
 
   /*--------------------------------------------------
@@ -124,18 +126,11 @@ export default class App extends React.Component {
       ? this.props.exp.notification.data.id
       : "";
 
-    this.fetchEntries(entryID);
-
-    LogService.log("handleNotification: " + new Date());
-    LogService.log("notification.data.id: " + notification.data.id);
-    LogService.log(
-      "this.props.exp.notification: " +
-        JSON.stringify(this.props.exp.notification)
-    );
+    this.fetchEntries(this.appKey, entryID);
   }
 
-  async fetchEntries(id = "") {
-    const items = await StorageService.fetchData(id);
+  async fetchEntries(appKey, id = "") {
+    const items = await StorageService.fetchData(appKey, id);
 
     // Set internal state
     this.setState({

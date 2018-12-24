@@ -2,11 +2,11 @@ import { AsyncStorage } from "react-native";
 import { CONFIG } from "../config/Index";
 
 class StorageService {
-  static async fetchData(entryID) {
+  static async fetchData(appKey, entryID) {
     const localItems = await this._fetchLocalData(entryID);
 
     const syncedItems = (await this._isSyncRequired())
-      ? this._fetchSyncedData(entryID)
+      ? this._fetchSyncedData(appKey, entryID)
       : localItems;
 
     return syncedItems;
@@ -33,11 +33,11 @@ class StorageService {
     return isSyncRequired;
   }
 
-  static async _fetchSyncedData(entryID) {
+  static async _fetchSyncedData(appKey, entryID) {
     var items;
     try {
       // Fetch from Airtable
-      const itemsFromCloud = await this._fetchDataFromAirtable(entryID);
+      const itemsFromCloud = await this._fetchDataFromAirtable(appKey, entryID);
       await this._storeLocalData(itemsFromCloud); // Store into local data
       items = itemsFromCloud;
     } catch (error) {
@@ -49,7 +49,7 @@ class StorageService {
     return items;
   }
 
-  static async _fetchDataFromAirtable(entryID) {
+  static async _fetchDataFromAirtable(appKey, entryID) {
     const params = {
       method: "GET",
       headers: {
@@ -58,7 +58,7 @@ class StorageService {
       }
     };
 
-    let url = this._getFetchURL(entryID);
+    let url = this._getFetchURL(appKey, entryID);
     let response = await fetch(url, params);
 
     return await response.json();
@@ -69,12 +69,15 @@ class StorageService {
     AsyncStorage.setItem("lastSyncedAt", JSON.stringify(Date.now()));
   }
 
-  static _getFetchURL(entryID) {
+  static _getFetchURL(appKey, entryID) {
     const urlBase =
-      "https://h9r2pkur9g.execute-api.us-east-1.amazonaws.com/Prod/items";
-    const url = entryID ? urlBase + "?entryID=" + entryID : urlBase;
+      "https://h9r2pkur9g.execute-api.us-east-1.amazonaws.com/Prod/items" +
+      "?appKey=" +
+      appKey;
 
-    return url;
+    const fullUrl = entryID ? urlBase + "?entryID=" + entryID : urlBase;
+
+    return fullUrl;
   }
 
   static async _getFromLocalStorage(key) {

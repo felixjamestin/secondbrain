@@ -2,6 +2,8 @@
 ⭑ Description: This is a lambda function to return
 * entries stored in Airtable
 ----------------------------------------------------*/
+import { SECONDBRAIN_APPS } from "./config/index";
+
 var express = require("express");
 var bodyParser = require("body-parser");
 var awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
@@ -27,7 +29,9 @@ app.use(function(req, res, next) {
 ----------------------------------------------------*/
 app.get("/items", async function(req, res) {
   try {
-    let items = await _getEntriesFromAirtable();
+    let appKey = req.apiGateway.event.queryStringParameters.appKey;
+    let items = await _getEntriesFromAirtable(appKey);
+
     let sanitizedItems = items.records.filter(item => {
       return Object.keys(item.fields).length > 0;
     });
@@ -42,30 +46,32 @@ app.get("/items", async function(req, res) {
 });
 
 app.get("/items/*", function(req, res) {
-  // Add your code here
-  res.json({ success: "get call succeed!", url: req.url });
+  res.json({ Success: "Get call succeed!", url: req.url });
 });
 
 /*--------------------------------------------------
 ⭑ Private functions
 ----------------------------------------------------*/
-async function _getEntriesFromAirtable() {
-  const token = "key34bOupUaggtKkP";
-  const uri =
-    "https://api.airtable.com/v0/appfE7KsVoV5uiRhK/personal?maxRecords=1000&view=Grid%20view";
-
+async function _getEntriesFromAirtable(appKey) {
+  const appDetails = _getDetailsForAppKey(appKey);
   const requestOptions = {
-    uri: uri,
+    uri: appDetails.uri,
     method: "GET",
     json: true,
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token
+      Authorization: "Bearer " + appDetails.token
     }
   };
 
   return requestpromise(requestOptions);
+}
+
+function _getDetailsForAppKey(appKey) {
+  return SECONDBRAIN_APPS.find(element => {
+    return element.key === appKey;
+  });
 }
 
 function _getCurrentItem(items, entryID) {
