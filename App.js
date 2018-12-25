@@ -11,8 +11,8 @@ import {
 } from "./src/components/Index";
 import { Constants } from "./src/components/common/Index";
 import { ArrayHelper } from "./src/helpers/Index";
-import { LogService, StorageService, UserService } from "./src/services/Index";
-import { Constants as AppConstants } from "./amplify/backend/function/sbapigetallitems/src/constants/index";
+import { StorageService, UserService } from "./src/services/Index";
+import { Constants as AppConstants } from "./amplify/backend/function/sbapigetallitems/src/constants";
 import config from "./aws-exports";
 
 Amplify.configure(config);

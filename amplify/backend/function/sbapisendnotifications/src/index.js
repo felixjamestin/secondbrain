@@ -4,7 +4,7 @@
 * clients. How is this function tiggered, you ask? 
 * Using an AWS Cloudwatch rule. Long live the monolith clouds
 ----------------------------------------------------*/
-import { SECONDBRAIN_APPS } from "./config/index";
+import { SECONDBRAIN_APPS } from "./config";
 
 const AWS = require("aws-sdk");
 const requestpromise = require("request-promise");

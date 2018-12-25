@@ -2,7 +2,7 @@
 ⭑ Description: This is a lambda function to return
 * entries stored in Airtable
 ----------------------------------------------------*/
-import { SECONDBRAIN_APPS } from "./config/index";
+import { SECONDBRAIN_APPS } from "./config";
 
 var express = require("express");
 var bodyParser = require("body-parser");
