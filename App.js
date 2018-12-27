@@ -12,8 +12,9 @@ import {
 import { Constants } from "./src/components/common/Index";
 import { ArrayHelper } from "./src/helpers/Index";
 import { StorageService, UserService } from "./src/services/Index";
-import { Constants as AppConstants } from "./amplify/backend/function/sbapigetallitems/src/constants";
 import config from "./aws-exports";
+
+const secondbrainApps = require("./amplify/backend/function/sbapigetallitems/src/constants");
 
 Amplify.configure(config);
 
@@ -22,7 +23,7 @@ export default class App extends React.Component {
     super(props);
 
     // Initializations
-    this.appKey = AppConstants.appKeys.sb; //NOTE: Change this for each derivative app
+    this.appKey = secondbrainApps.appKeys.sb; //NOTE: Change this for each derivative app
     this.state = {
       dataSource: [],
       currentItem: {},

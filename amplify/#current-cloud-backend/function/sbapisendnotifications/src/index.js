@@ -4,14 +4,14 @@
 * clients. How is this function tiggered, you ask? 
 * Using an AWS Cloudwatch rule. Long live the monolith clouds
 ----------------------------------------------------*/
-import { SECONDBRAIN_APPS } from "./config";
 
 const AWS = require("aws-sdk");
 const requestpromise = require("request-promise");
+const secondbrainApps = require("./config");
 
 exports.handler = async function(event, context) {
   await Promise.all(
-    SECONDBRAIN_APPS.map(async app => {
+    secondbrainApps.map(async app => {
       try {
         // 1. Get random item from airtable
         let items = await _getEntriesFromAirtable(app);

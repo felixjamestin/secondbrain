@@ -2,12 +2,12 @@
 ⭑ Description: This is a lambda function to return
 * entries stored in Airtable
 ----------------------------------------------------*/
-import { SECONDBRAIN_APPS } from "./config";
 
 var express = require("express");
 var bodyParser = require("body-parser");
 var awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
 var requestpromise = require("request-promise");
+const secondbrainApps = require("./config");
 
 // Declare a new express app
 var app = express();
@@ -69,7 +69,7 @@ async function _getEntriesFromAirtable(appKey) {
 }
 
 function _getDetailsForAppKey(appKey) {
-  return SECONDBRAIN_APPS.find(element => {
+  return secondbrainApps.find(element => {
     return element.key === appKey;
   });
 }

@@ -9,4 +9,4 @@ const Constants = {
   }
 };
 
-export { Constants };
+module.exports = Constants;
