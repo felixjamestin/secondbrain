@@ -9,9 +9,7 @@ const AWS = require("aws-sdk");
 const requestpromise = require("request-promise");
 const secondbrainApps = require("./config");
 
-main();
-// exports.handler = async function(event, context) //TODO:
-async function main() {
+exports.handler = async function(event, context) {
   await Promise.all(
     secondbrainApps.map(async app => {
       try {
@@ -30,7 +28,7 @@ async function main() {
       }
     })
   );
-}
+};
 
 /*--------------------------------------------------
 ⭑ Private functions
