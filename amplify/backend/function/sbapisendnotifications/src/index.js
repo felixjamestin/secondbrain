@@ -175,8 +175,8 @@ function _hasUserPreferredNotificationTimeArrived(timeZoneOffset) {
 
   // 2. Get the preferred time to receive notifcations as set by the user
   let preferredTimeForUser = _convertSystemTimeToDifferentTimezone(offsetHours);
-  preferredTimeForUser.setHours(11); // TODO: Make this user customizable?
-  preferredTimeForUser.setMinutes(35);
+  preferredTimeForUser.setHours(9); // TODO: Make this user customizable?
+  preferredTimeForUser.setMinutes(0);
   preferredTimeForUser.setSeconds(0);
   preferredTimeForUser.setMilliseconds(0);
 
