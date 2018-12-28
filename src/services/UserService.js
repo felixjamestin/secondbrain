@@ -1,6 +1,5 @@
 import { Permissions, Notifications, Constants } from "expo";
 import { API } from "aws-amplify";
-import { Constants as AppConstants } from "../../amplify/backend/function/sbapigetallitems/src/constants/index";
 
 class UserService {
   static async registerUser(appKey) {

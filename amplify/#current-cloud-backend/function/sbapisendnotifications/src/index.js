@@ -4,7 +4,6 @@
 * clients. How is this function tiggered, you ask? 
 * Using an AWS Cloudwatch rule. Long live the monolith clouds
 ----------------------------------------------------*/
-
 const AWS = require("aws-sdk");
 const requestpromise = require("request-promise");
 const secondbrainApps = require("./config");
@@ -55,7 +54,9 @@ function _getEntriesFromAirtable(app) {
 // 2. Read push key off dynamo db
 async function _getPushTokens() {
   let pushUsersAll = await _getAllPushUsers();
-  return _getFilteredPushUsersBasedOnTime(pushUsersAll);
+  let pushUsersFiltered = _getFilteredPushUsersBasedOnTime(pushUsersAll);
+
+  return pushUsersFiltered;
 }
 
 function _getAllPushUsers() {
@@ -73,19 +74,17 @@ function _getAllPushUsers() {
 }
 
 function _getFilteredPushUsersBasedOnTime(pushUsers) {
-  const pushUsersFiltered = pushUsers.Items.filter(item => {
-    if (item.shouldSendNotifications === false) return false;
-    if (_hasUserPreferredNotificationTimeArrived(item.timeZoneOffset) !== true)
-      return false;
+  const pushUsersExcludingExpoClient = pushUsers.Items.filter(item => {
+    return item.appType !== "expo" ? true : false; // Don't send pushes to apps launched from the expo client
   });
 
-  const pushUsersFilteredExcludingExpoClient = pushUsersFiltered.filter(
-    item => {
-      return item.appType !== "expo" ? true : false; // Don't send pushes to apps launched from the expo client
-    }
-  );
+  const pushUsersFiltered = pushUsersExcludingExpoClient.filter(item => {
+    if (item.shouldSendNotifications === false) return false;
+    if (_hasUserPreferredNotificationTimeArrived(item.timeZoneOffset) === true)
+      return true;
+  });
 
-  return pushUsersFilteredExcludingExpoClient;
+  return pushUsersFiltered;
 }
 
 // 3. Call expo push api
@@ -171,46 +170,37 @@ function _isTextInMarkdown(text) {
 
 function _hasUserPreferredNotificationTimeArrived(timeZoneOffset) {
   // 1. Get the current system time in the user's timezone
-  let currentTimeForUser = _convertSystemTimeToDifferentTimezone(
-    timeZoneOffset
-  );
-  console.log(currentTimeForUser.toLocaleString());
+  let offsetHours = -timeZoneOffset;
+  let currentTimeForUser = _convertSystemTimeToDifferentTimezone(offsetHours);
 
   // 2. Get the preferred time to receive notifcations as set by the user
-  let preferredTimeForUser = _convertSystemTimeToDifferentTimezone(
-    timeZoneOffset
-  );
+  let preferredTimeForUser = _convertSystemTimeToDifferentTimezone(offsetHours);
   preferredTimeForUser.setHours(9); // TODO: Make this user customizable?
   preferredTimeForUser.setMinutes(0);
   preferredTimeForUser.setSeconds(0);
   preferredTimeForUser.setMilliseconds(0);
-  console.log(preferredTimeForUser.toLocaleString());
 
   // 3. Check if the user's preferred time has come (the system checks this every 5 minutes)
   let currentTimeForUserSecs = currentTimeForUser.getTime();
   let preferredTimeForUserSecs = preferredTimeForUser.getTime();
-  console.log(currentTimeForUserSecs);
-  console.log(preferredTimeForUserSecs);
 
   if (
     preferredTimeForUserSecs >= currentTimeForUserSecs &&
     preferredTimeForUserSecs < currentTimeForUserSecs + 5 * 60 * 1000
   ) {
-    console.log("Wooot! It's time");
     return true;
   } else {
-    console.log("Not yet");
     return false;
   }
 }
 
-function _convertSystemTimeToDifferentTimezone(offset) {
+function _convertSystemTimeToDifferentTimezone(offsetHours) {
   // Get UTC time in msec for the current server location
   let date = new Date();
   let utc = date.getTime() + date.getTimezoneOffset() * 60000;
 
   // Create new date object for the supplied offset
-  var newDate = new Date(utc + 3600000 * offset);
+  var newDate = new Date(utc + 3600000 * offsetHours);
 
   // Return time
   return newDate;
