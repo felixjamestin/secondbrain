@@ -1,0 +1,29 @@
+
+Steps to deploy a new app:
+
+1. Content
+* Create a new Airtable sheet
+* Update the sheet key in the config below
+
+2. Code
+* Add/update config files
+** sbapigetallitems -> config.js & constant.js
+** sbapisendnotifications -> config.js & constant.js
+* Update app key for the new app
+** App.js -> change the app key constant
+
+3. Design
+* Change splash image
+* Change icon image
+
+4. Deploy to app stores
+* 
+* App store copy
+
+5. Market
+* ...
+* ...
+
+6. Blog
+* ...
+* ...
