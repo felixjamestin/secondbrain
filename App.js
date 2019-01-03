@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { Font, Notifications } from "expo";
+import { Font, Notifications, Constants } from "expo";
 import Amplify from "aws-amplify";
 import {
   Header,
@@ -9,9 +9,9 @@ import {
   LoadingState,
   AnalyticsHelper
 } from "./src/components/Index";
-import { Constants } from "./src/components/common/Index";
+import { Constants as AppConstants } from "./src/components/common/Index";
 import { ArrayHelper } from "./src/helpers/Index";
-import { StorageService, UserService } from "./src/services/Index";
+import { StorageService, UserService, LogService } from "./src/services/Index";
 import config from "./aws-exports";
 
 const secondbrainApps = require("./amplify/backend/function/sbapigetallitems/src/constants");
@@ -23,7 +23,10 @@ export default class App extends React.Component {
     super(props);
 
     // Initializations
-    this.appKey = secondbrainApps.appKeys.sb; //NOTE: Change this for each derivative app
+    this.appKey = this.getAppKeyFromExpoReleaseChannel(
+      Constants.manifest.releaseChannel
+    );
+
     this.state = {
       dataSource: [],
       currentItem: {},
@@ -74,7 +77,7 @@ export default class App extends React.Component {
   renderWhenEmpty() {
     return (
       <View style={styles.container}>
-        <Header />
+        <Header appKey={this.appKey} />
         <BlankState />
       </View>
     );
@@ -85,7 +88,7 @@ export default class App extends React.Component {
 
     return (
       <View style={styles.container}>
-        <Header />
+        <Header appKey={this.appKey} />
         <Excerpt item={item} onShowNextExcerpt={this.handleShowNextExcerpt} />
       </View>
     );
@@ -120,6 +123,32 @@ export default class App extends React.Component {
     return ArrayHelper.getRandomItemFromArray(dataSource);
   }
 
+  getAppKeyFromExpoReleaseChannel(channel) {
+    const releaseChannel = channel || "default";
+
+    let appKey;
+    switch (releaseChannel) {
+      case "default":
+        appKey = secondbrainApps.appKeys.sb;
+        break;
+
+      case "sb-staging":
+      case "sb-prod":
+        appKey = secondbrainApps.appKeys.sb;
+        break;
+
+      case "rmed-staging":
+      case "rmed-prod":
+        appKey = secondbrainApps.appKeys.rmed;
+        break;
+
+      default:
+        break;
+    }
+
+    return appKey;
+  }
+
   async handleNotification(notification) {
     let entryID = notification.data.id
       ? notification.data.id
@@ -131,14 +160,25 @@ export default class App extends React.Component {
   }
 
   async fetchEntries(appKey, id = "") {
-    const items = await StorageService.fetchData(appKey, id);
+    try {
+      const items = await StorageService.fetchData(appKey, id);
 
-    // Set internal state
-    this.setState({
-      isDataLoadingDone: true,
-      dataSource: items.allItems,
-      currentItem: items.currentItem
-    });
+      // Set internal state
+      let dataSource = items ? items.allItems : "";
+      let currentItem = items ? items.currentItem : "";
+      this.setState({
+        isDataLoadingDone: true,
+        dataSource: dataSource,
+        currentItem: currentItem
+      });
+    } catch (error) {
+      LogService.log(
+        error.name + ": " + error.message,
+        "error",
+        "fetchEntries",
+        LogService.loggingType.remote
+      );
+    }
   }
 
   async loadFonts() {
@@ -161,7 +201,7 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: Constants.baseColors.darkGrey
+    backgroundColor: AppConstants.baseColors.darkGrey
   },
   container: {
     flex: 1,

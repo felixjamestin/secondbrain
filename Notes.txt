@@ -1,4 +1,3 @@
-
 Steps to deploy a new app:
 
 1. Content
@@ -9,8 +8,8 @@ Steps to deploy a new app:
 * Add/update config files
 ** sbapigetallitems -> config.js & constant.js
 ** sbapisendnotifications -> config.js & constant.js
-* Update app key for the new app
-** App.js -> change the app key constant
+* Update the header image
+** Header.js -> _getHeaderImage()
 
 3. Design
 * Change splash image

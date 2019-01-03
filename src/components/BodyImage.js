@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import { View, Image, StyleSheet } from "react-native";
+import { View, StyleSheet, Animated } from "react-native";
 import { LoadingState } from "./Index";
 
 class BodyImage extends PureComponent {
@@ -8,7 +8,8 @@ class BodyImage extends PureComponent {
 
     // Initializations
     this.state = {
-      isLoadingDone: false
+      isLoadingDone: false,
+      opacity: new Animated.Value(0)
     };
   }
 
@@ -18,8 +19,8 @@ class BodyImage extends PureComponent {
   render() {
     return (
       <View style={this.getItemStyles()}>
-        {this.renderImage(this.props.uri)}
         {this.checkAndShowLoader()}
+        {this.renderImage(this.props.uri)}
       </View>
     );
   }
@@ -31,18 +32,28 @@ class BodyImage extends PureComponent {
 
   renderImage(uri) {
     const imageView = (
-      <Image
-        style={
-          this.state.isLoadingDone
-            ? styles.excerpt_image
-            : styles.container_excerpt_image_only
-        }
+      <Animated.Image
+        style={[
+          {
+            opacity: this.state.opacity,
+            transform: [
+              {
+                scale: this.state.opacity.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0.85, 1]
+                })
+              }
+            ]
+          },
+          styles.excerpt_image
+        ]}
         source={{
           uri: uri
         }}
         resizeMode="contain"
         onLoadStart={this.handleLoadStart}
         onLoadEnd={this.handleLoadComplete}
+        onLoad={this.onLoad}
       />
     );
 
@@ -66,6 +77,14 @@ class BodyImage extends PureComponent {
 
   handleLoadComplete = () => {
     this.setState({ isLoadingDone: true });
+  };
+
+  onLoad = () => {
+    Animated.timing(this.state.opacity, {
+      toValue: 1,
+      duration: 500,
+      useNativeDriver: true
+    }).start();
   };
 }
 
@@ -91,10 +110,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 4,
     shadowColor: "black",
-    shadowOffset: { height: 2, width: 0 }
-  },
-  excerpt_image_loading: {
-    display: "none"
+    shadowOffset: { height: 2, width: 0 },
+    opacity: 1
   }
 });
 

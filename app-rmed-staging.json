@@ -1,0 +1,36 @@
+{
+  "expo": {
+    "name": "Ramana Maharishi Daily Staging",
+    "description": "App that surfaces insights from Ramana Maharishi",
+    "icon": "./assets/rmed-staging-icon.png",
+    "version": "1.0.3",
+    "slug": "ramanamaharishidaily",
+    "privacy": "public",
+    "sdkVersion": "27.0.0",
+    "platforms": ["ios", "android"],
+    "ios": {
+      "bundleIdentifier": "com.felixjamestin.ramanamaharishidaily",
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.felixjamestin.ramanamaharishidaily"
+    },
+    "orientation": "portrait",
+    "splash": {
+      "image": "./assets/rmed-staging-splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#222222"
+    },
+    "scheme": "ramanamaharishidaily",
+    "updates": {
+      "fallbackToCacheTimeout": 0,
+      "enabled": true,
+      "checkAutomatically": "ON_LOAD"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "androidStatusBar": {
+      "barStyle": "dark-content",
+      "backgroundColor": "#222222"
+    }
+  }
+}

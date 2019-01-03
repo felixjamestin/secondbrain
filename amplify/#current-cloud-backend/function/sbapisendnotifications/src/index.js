@@ -8,7 +8,10 @@ const AWS = require("aws-sdk");
 const requestpromise = require("request-promise");
 const secondbrainApps = require("./config");
 
-exports.handler = async function(event, context) {
+main(); //TODO: Remove main function
+
+async function main() {
+  // exports.handler = async function(event, context) {
   await Promise.all(
     secondbrainApps.map(async app => {
       try {
@@ -17,17 +20,17 @@ exports.handler = async function(event, context) {
         let item = items.currentItem;
 
         // 2. Get push key for relevant users based on their notification time preferance
-        let pushTokens = await _getPushTokens();
+        let pushTokens = await _getPushTokens(app.key);
 
         // 3. Call expo push api
         let result = await _sendPushNotifications(item, pushTokens);
-        console.log(JSON.stringify(result));
+        console.log(app.key + ": " + JSON.stringify(result)); //TODO:
       } catch (error) {
         console.error(error);
       }
     })
   );
-};
+}
 
 /*--------------------------------------------------
 ⭑ Private functions
@@ -52,9 +55,9 @@ function _getEntriesFromAirtable(app) {
 }
 
 // 2. Read push key off dynamo db
-async function _getPushTokens() {
+async function _getPushTokens(appKey) {
   let pushUsersAll = await _getAllPushUsers();
-  let pushUsersFiltered = _getFilteredPushUsersBasedOnTime(pushUsersAll);
+  let pushUsersFiltered = _getFilteredPushUsers(appKey, pushUsersAll);
 
   return pushUsersFiltered;
 }
@@ -64,7 +67,10 @@ function _getAllPushUsers() {
     region: "us-east-1" //process.env.TABLE_REGION
   });
 
-  const params = { TableName: "users", Limit: 1000 };
+  const params = {
+    TableName: "users",
+    Limit: 1000
+  };
 
   return new Promise((resolve, reject) => {
     dynamodb.scan(params, function(err, data) {
@@ -73,16 +79,29 @@ function _getAllPushUsers() {
   });
 }
 
-function _getFilteredPushUsersBasedOnTime(pushUsers) {
-  const pushUsersExcludingExpoClient = pushUsers.Items.filter(item => {
-    return item.appType !== "expo" ? true : false; // Don't send pushes to apps launched from the expo client
+function _getFilteredPushUsers(appKey, pushUsers) {
+  const pushUsersForAppKeyExcludingExpoClient = pushUsers.Items.filter(item => {
+    return item.appKey !== appKey || item.appType === "expo" ? false : true;
   });
 
-  const pushUsersFiltered = pushUsersExcludingExpoClient.filter(item => {
-    if (item.shouldSendNotifications === false) return false;
-    if (_hasUserPreferredNotificationTimeArrived(item.timeZoneOffset) === true)
-      return true;
-  });
+  const pushUsersFiltered = pushUsersForAppKeyExcludingExpoClient.filter(
+    item => {
+      if (item.shouldSendNotifications === false) return false;
+      // if (
+      //   _hasUserPreferredNotificationTimeArrived(item.timeZoneOffset) === true
+      // )
+      //   return true;
+
+      //TODO: REMOVE & UNCOMMENT ABOVE
+      if (item.shouldSendNotifications === false) {
+        return false;
+      } else if (item.token === "ExponentPushToken[ityp0AJfrnQXdzA8xEOThS]") {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  );
 
   return pushUsersFiltered;
 }

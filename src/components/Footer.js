@@ -45,7 +45,7 @@ class Footer extends React.PureComponent {
 const styles = StyleSheet.create({
   container: {
     paddingTop: 45,
-    paddingBottom: 250,
+    paddingBottom: 150,
     flexDirection: "row",
     justifyContent: "center",
     paddingLeft: 42,

@@ -3,9 +3,9 @@ import { CONFIG } from "../config/Index";
 
 class StorageService {
   static async fetchData(appKey, entryID) {
-    const localItems = await this._fetchLocalData(entryID);
-
-    const syncedItems = (await this._isSyncRequired())
+    const localItems = await this._fetchLocalData(appKey, entryID);
+    const isSyncRequired = await this._isSyncRequired(appKey);
+    const syncedItems = isSyncRequired
       ? this._fetchSyncedData(appKey, entryID)
       : localItems;
 
@@ -15,20 +15,25 @@ class StorageService {
   /*--------------------------------------------------
     ⭑ Private methods
   ----------------------------------------------------*/
-  static async _fetchLocalData(entryID) {
-    let items = await this._getFromLocalStorage("items");
-    if (items)
-      items.currentItem = this._getCurrentItem(items.allItems, entryID);
+  static async _fetchLocalData(appKey, entryID) {
+    let localDataKey = appKey + "items";
+    let items = await this._getFromLocalStorage(localDataKey);
 
-    return items;
+    if (this._checkIfItemsAreValid(items) === true) {
+      items.currentItem = this._getCurrentItem(items.allItems, entryID);
+      return items;
+    }
   }
 
-  static async _isSyncRequired() {
-    const lastSyncedAt = await this._getFromLocalStorage("lastSyncedAt");
+  static async _isSyncRequired(appKey) {
+    const lastSyncedAtKey = appKey + "lastSyncedAt";
+    const lastSyncedAt = await this._getFromLocalStorage(lastSyncedAtKey);
     const cache_timeout_secs = CONFIG.CACHE_TIMEOUT * 24 * 60 * 60 * 1000;
 
-    const isSyncRequired =
-      lastSyncedAt === null || lastSyncedAt + cache_timeout_secs < Date.now();
+    let isSyncRequired =
+      lastSyncedAt === null || lastSyncedAt + cache_timeout_secs < Date.now()
+        ? true
+        : false;
 
     return isSyncRequired;
   }
@@ -38,11 +43,16 @@ class StorageService {
     try {
       // Fetch from Airtable
       const itemsFromCloud = await this._fetchDataFromAirtable(appKey, entryID);
-      await this._storeLocalData(itemsFromCloud); // Store into local data
-      items = itemsFromCloud;
+
+      if (this._checkIfItemsAreValid(itemsFromCloud) === true) {
+        await this._storeLocalData(appKey, itemsFromCloud); // Store into local data
+        items = itemsFromCloud;
+      } else {
+        throw new Error("Items fetched from the cloud are invalid");
+      }
     } catch (error) {
-      // Timeout? Fallback to locally stored data
-      const localItems = await this._fetchLocalData(entryID);
+      // Timeout/invalid items? Fallback to locally stored data
+      const localItems = await this._fetchLocalData(appKey, entryID);
       items = localItems;
     }
 
@@ -61,12 +71,16 @@ class StorageService {
     let url = this._getFetchURL(appKey, entryID);
     let response = await fetch(url, params);
 
-    return await response.json();
+    let responseJson = response.json();
+    return responseJson;
   }
 
-  static async _storeLocalData(items) {
-    AsyncStorage.setItem("items", JSON.stringify(items));
-    AsyncStorage.setItem("lastSyncedAt", JSON.stringify(Date.now()));
+  static async _storeLocalData(appKey, items) {
+    let localDataKey = appKey + "items";
+    let lastSyncedAtKey = appKey + "lastSyncedAt";
+
+    AsyncStorage.setItem(localDataKey, JSON.stringify(items));
+    AsyncStorage.setItem(lastSyncedAtKey, JSON.stringify(Date.now()));
   }
 
   static _getFetchURL(appKey, entryID) {
@@ -83,6 +97,17 @@ class StorageService {
   static async _getFromLocalStorage(key) {
     const result = await AsyncStorage.getItem(key);
     return JSON.parse(result);
+  }
+
+  static _checkIfItemsAreValid(items) {
+    let isValid =
+      items !== null && items !== undefined
+        ? items.allItems !== undefined
+          ? true
+          : false
+        : false;
+
+    return isValid;
   }
 
   static _getCurrentItem(items, entryID) {

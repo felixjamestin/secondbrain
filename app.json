@@ -2,7 +2,7 @@
   "expo": {
     "name": "Secondbrain",
     "description": "App that resurfaces ideas – book excerpts, quotes, insights & notes",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/sb-prod-icon.png",
     "version": "1.0.3",
     "slug": "secondbrain",
     "privacy": "public",
@@ -17,7 +17,7 @@
     },
     "orientation": "portrait",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/sb-prod-splash.png",
       "resizeMode": "cover",
       "backgroundColor": "#222222"
     },

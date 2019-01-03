@@ -13,7 +13,10 @@ class BlankState extends React.PureComponent {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>I got nothing</Text>
+        <Text style={styles.text}>
+          We're really sorry, but something went wrong. Please reinstall the app
+          and things should work fine.
+        </Text>
       </View>
     );
   }
@@ -25,13 +28,17 @@ class BlankState extends React.PureComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "flex-start",
-    marginTop: 0
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 0,
+    paddingHorizontal: 40
   },
   text: {
     color: Constants.baseColors.white,
     fontFamily: "overpass-light",
-    fontSize: 15
+    fontSize: 15,
+    marginTop: -100,
+    textAlign: "center"
   }
 });
 

@@ -30,6 +30,7 @@ app.use(function(req, res, next) {
 app.get("/items", async function(req, res) {
   try {
     let appKey = req.apiGateway.event.queryStringParameters.appKey;
+
     let items = await _getEntriesFromAirtable(appKey);
 
     let sanitizedItems = items.records.filter(item => {
@@ -39,6 +40,8 @@ app.get("/items", async function(req, res) {
     let entryID = _getIDForCurrentItem(req.apiGateway.event);
     let currentItem = _getCurrentItem(sanitizedItems, entryID);
 
+    console.log("currentItem" + ": " + JSON.stringify(currentItem));
+    console.log("allItems" + ": " + JSON.stringify(sanitizedItems));
     res.json({ currentItem: currentItem, allItems: sanitizedItems });
   } catch (err) {
     res.json({ error: "Something went wrong " + err });
@@ -54,6 +57,7 @@ app.get("/items/*", function(req, res) {
 ----------------------------------------------------*/
 async function _getEntriesFromAirtable(appKey) {
   const appDetails = _getDetailsForAppKey(appKey);
+
   const requestOptions = {
     uri: appDetails.uri,
     method: "GET",

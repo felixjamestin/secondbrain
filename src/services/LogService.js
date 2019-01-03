@@ -12,16 +12,24 @@ class LogService {
     switch (type) {
       case this.loggingType.local:
         this._logLocally(
-          "In method " + calleeName + " for variable " + variableName
+          "In method " +
+            calleeName +
+            " for variable " +
+            variableName +
+            ": " +
+            JSON.stringify(value)
         );
-        this._logLocally(value);
         break;
 
       case this.loggingType.remote:
         this._logRemotely(
-          "In method " + calleeName + " for variable " + variableName
+          "In method " +
+            calleeName +
+            " for variable " +
+            variableName +
+            ": " +
+            JSON.stringify(value)
         );
-        this._logRemotely(value);
         break;
     }
   }
@@ -40,7 +48,7 @@ class LogService {
         {
           app: timestamp,
           timestamp: timestamp,
-          line: value
+          line: JSON.stringify(value)
         }
       ]
     };

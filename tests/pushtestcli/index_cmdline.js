@@ -2,9 +2,12 @@
 ⭑ Description: This is a job that sends push
 ⭑ notifications to the secondbrain clients
 ----------------------------------------------------*/
-
 const AWS = require("aws-sdk");
 const requestpromise = require("request-promise");
+
+// NOTE: Change when required
+// const appKeyGlobal = "SECONDBRAIN";
+const appKeyGlobal = "RAMANA_MAHARISHI_ENGLISH_DAILY";
 
 main();
 
@@ -13,7 +16,9 @@ async function main() {
     // 1. Get random item from airtable
     let items = await getEntriesFromAirtable();
     let item = items.currentItem;
+
     console.log(item);
+    await _logRemotely(item);
 
     // 2. Read push key off dynamo db
     let pushTokens = await getPushTokens();
@@ -34,7 +39,10 @@ async function main() {
 // 1. Read random item off airtable
 function getEntriesFromAirtable() {
   const requestOptions = {
-    uri: "https://h9r2pkur9g.execute-api.us-east-1.amazonaws.com/Prod/items",
+    uri:
+      "https://h9r2pkur9g.execute-api.us-east-1.amazonaws.com/Prod/items" +
+      "?appKey=" +
+      appKeyGlobal,
     method: "GET",
     json: true,
     headers: {
@@ -52,7 +60,7 @@ function getPushTokens() {
     region: "us-east-1" //process.env.TABLE_REGION
   });
 
-  const params = { TableName: "users", Limit: 100 };
+  const params = { TableName: "users", Limit: 1000 };
 
   return new Promise((resolve, reject) => {
     dynamodb.scan(params, function(err, data) {
@@ -66,10 +74,16 @@ function sendPushNotifications(randomEntry, pushTokens) {
   let { title, body } = getPushTextForEntry(randomEntry);
 
   const pushTokensExcludingExpoClient = pushTokens.Items.filter(item => {
-    return item.appType !== "expo" ? true : true;
+    return item.appType !== "expo" ? false : true; // Don't send to non-expo clients since this is for testing...
   });
 
-  const pushBodyForRecepients = pushTokensExcludingExpoClient.map(item => {
+  const pushTokensFilteredByAppKey = pushTokensExcludingExpoClient.filter(
+    item => {
+      return item.appKey === appKeyGlobal ? true : false;
+    }
+  );
+
+  const pushBodyForRecepients = pushTokensFilteredByAppKey.map(item => {
     return {
       to: item.token,
       title: title,
@@ -145,4 +159,28 @@ function isTextInMarkdown(text) {
   }
 
   return isTextInMarkdown;
+}
+
+async function _logRemotely(value) {
+  let timestamp = new Date();
+  let body = {
+    lines: [
+      {
+        app: timestamp,
+        timestamp: timestamp,
+        line: JSON.stringify(value)
+      }
+    ]
+  };
+
+  return requestpromise({
+    url: "https://logs.logdna.com/logs/ingest?hostname=secondbrain",
+    method: "POST",
+    json: true,
+    body: body,
+    headers: {
+      Authorization: "Basic NDc3Mjg3OWU2NmE5Y2U1Njg4Y2VkMzQxMjdhNTAwZWQ6",
+      "Content-Type": "application/json"
+    }
+  });
 }
