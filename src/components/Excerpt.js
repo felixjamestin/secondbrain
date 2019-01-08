@@ -40,10 +40,12 @@ class Excerpt extends React.PureComponent {
             title={title}
             author={author}
             doesDescriptionExist={doesDescriptionExist}
+            appKey={this.props.appKey}
           />
           <BodyContent
             content={body}
             doesDescriptionExist={doesDescriptionExist}
+            appKey={this.props.appKey}
           />
         </View>
 
@@ -62,7 +64,12 @@ class Excerpt extends React.PureComponent {
 
   renderFooter = () => {
     const onShowNextExcerpt = this.props.onShowNextExcerpt;
-    return <Footer onShowNextExcerpt={onShowNextExcerpt} />;
+    return (
+      <Footer
+        onShowNextExcerpt={onShowNextExcerpt}
+        appKey={this.props.appKey}
+      />
+    );
   };
 
   /*--------------------------------------------------

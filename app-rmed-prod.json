@@ -3,7 +3,7 @@
     "name": "Ramana Maharishi Daily",
     "description": "App that surfaces insights from Ramana Maharishi",
     "icon": "./assets/rmed-prod-icon.png",
-    "version": "1.0.3",
+    "version": "1.0.0",
     "slug": "ramanamaharishidaily",
     "privacy": "public",
     "sdkVersion": "27.0.0",

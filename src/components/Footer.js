@@ -2,6 +2,8 @@ import React from "react";
 import { View, StyleSheet, TouchableOpacity, Text, Image } from "react-native";
 import { Constants } from "./common/Index";
 
+const secondbrainApps = require("../../amplify/backend/function/sbapigetallitems/src/constants");
+
 class Footer extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -11,16 +13,18 @@ class Footer extends React.PureComponent {
     Render UI
   ----------------------------------------------------*/
   render() {
+    const showNextIcon = this._getShowNextIconForApp(this.props.appKey);
+
     return (
       <View style={styles.container}>
         <TouchableOpacity
-          onPress={this.onShowNext}
+          onPress={this._onShowNext}
           style={styles.show_next_container}
           activeOpacity={0.6}
         >
           <View style={styles.show_next_subcontainer}>
             <Image
-              source={require("../../assets/show_next_icon.png")}
+              source={showNextIcon}
               style={styles.show_next_icon}
               resizeMode="contain"
             />
@@ -34,9 +38,29 @@ class Footer extends React.PureComponent {
   /*--------------------------------------------------
     Helpers & Handlers
   ----------------------------------------------------*/
-  onShowNext = () => {
+  _onShowNext = () => {
     this.props.onShowNextExcerpt();
   };
+
+  _getShowNextIconForApp(appKey) {
+    let showNextIcon;
+
+    switch (appKey) {
+      case secondbrainApps.appKeys.sb:
+        showNextIcon = require("../../assets/sb-show_next_icon.png");
+        break;
+
+      case secondbrainApps.appKeys.rmed:
+        showNextIcon = require("../../assets/rmed-show_next_icon.png");
+        break;
+
+      default:
+        showNextIcon = "";
+        break;
+    }
+
+    return showNextIcon;
+  }
 }
 
 /*---------------------------------------------------

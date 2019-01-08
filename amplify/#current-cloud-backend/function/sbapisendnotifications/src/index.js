@@ -8,10 +8,7 @@ const AWS = require("aws-sdk");
 const requestpromise = require("request-promise");
 const secondbrainApps = require("./config");
 
-main(); //TODO: Remove main function
-
-async function main() {
-  // exports.handler = async function(event, context) {
+exports.handler = async function(event, context) {
   await Promise.all(
     secondbrainApps.map(async app => {
       try {
@@ -24,13 +21,13 @@ async function main() {
 
         // 3. Call expo push api
         let result = await _sendPushNotifications(item, pushTokens);
-        console.log(app.key + ": " + JSON.stringify(result)); //TODO:
+        console.log(app.key + ": " + JSON.stringify(result));
       } catch (error) {
         console.error(error);
       }
     })
   );
-}
+};
 
 /*--------------------------------------------------
 ⭑ Private functions
@@ -87,19 +84,10 @@ function _getFilteredPushUsers(appKey, pushUsers) {
   const pushUsersFiltered = pushUsersForAppKeyExcludingExpoClient.filter(
     item => {
       if (item.shouldSendNotifications === false) return false;
-      // if (
-      //   _hasUserPreferredNotificationTimeArrived(item.timeZoneOffset) === true
-      // )
-      //   return true;
-
-      //TODO: REMOVE & UNCOMMENT ABOVE
-      if (item.shouldSendNotifications === false) {
-        return false;
-      } else if (item.token === "ExponentPushToken[ityp0AJfrnQXdzA8xEOThS]") {
-        return false;
-      } else {
+      if (
+        _hasUserPreferredNotificationTimeArrived(item.timeZoneOffset) === true
+      )
         return true;
-      }
     }
   );
 

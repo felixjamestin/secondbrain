@@ -30,10 +30,8 @@ class Header extends React.PureComponent {
   ⭑ Helpers & Handlers
 ----------------------------------------------------*/
   _getHeaderImage() {
-    const appKey = this.props.appKey;
-
     let headerLogo;
-    switch (appKey) {
+    switch (this.props.appKey) {
       case secondbrainApps.appKeys.sb:
         headerLogo = {
           image: require("../../assets/sb-header_logo.png"),

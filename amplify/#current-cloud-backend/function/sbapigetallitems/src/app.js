@@ -30,7 +30,6 @@ app.use(function(req, res, next) {
 app.get("/items", async function(req, res) {
   try {
     let appKey = req.apiGateway.event.queryStringParameters.appKey;
-    console.log("appKey" + ": " + JSON.stringify(appKey));
 
     let items = await _getEntriesFromAirtable(appKey);
 

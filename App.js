@@ -89,7 +89,11 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <Header appKey={this.appKey} />
-        <Excerpt item={item} onShowNextExcerpt={this.handleShowNextExcerpt} />
+        <Excerpt
+          item={item}
+          onShowNextExcerpt={this.handleShowNextExcerpt}
+          appKey={this.appKey}
+        />
       </View>
     );
   }

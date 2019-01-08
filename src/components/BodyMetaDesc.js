@@ -2,6 +2,8 @@ import React, { PureComponent } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { Constants } from "./common/Constants";
 
+const secondbrainApps = require("../../amplify/backend/function/sbapigetallitems/src/constants");
+
 class BodyMetaDesc extends PureComponent {
   constructor(props) {
     super(props);
@@ -11,7 +13,11 @@ class BodyMetaDesc extends PureComponent {
        Render UI 
   ----------------------------------------------------*/
   render() {
-    const itemStyle = this.getItemStyles(this.props.author, this.props.title);
+    const itemStyle = this._getItemStyles(
+      this.props.author,
+      this.props.title,
+      this.props.appKey
+    );
 
     return (
       <View>
@@ -25,13 +31,30 @@ class BodyMetaDesc extends PureComponent {
   /*--------------------------------------------------
       Helpers & Handlers
   ----------------------------------------------------*/
-  getItemStyles(author, title) {
+  _getItemStyles(author, title, appKey) {
     let itemStyle = {
       author: "",
       title: "",
       redbar: ""
     };
 
+    switch (appKey) {
+      case secondbrainApps.appKeys.sb:
+        this._getItemStylesForSB(author, title, itemStyle);
+        break;
+
+      case secondbrainApps.appKeys.rmed:
+        this._getItemStylesForRMED(itemStyle);
+        break;
+
+      default:
+        break;
+    }
+
+    return itemStyle;
+  }
+
+  _getItemStylesForSB(author, title, itemStyle) {
     itemStyle.title =
       title === "-" || title === ""
         ? styles.excerpt_title_empty
@@ -48,6 +71,13 @@ class BodyMetaDesc extends PureComponent {
       ? styles.redbar
       : styles.redbar_empty;
 
+    return itemStyle;
+  }
+
+  _getItemStylesForRMED(itemStyle) {
+    itemStyle.title = styles.excerpt_title_empty;
+    itemStyle.author = styles.excerpt_author_empty;
+    itemStyle.redbar = styles.redbar_empty;
     return itemStyle;
   }
 }
